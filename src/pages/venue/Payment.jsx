@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
+import { supabase } from '../../lib/supabase'; // Adjust the import path as needed
 
 const Payment = ({ plan, onSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -9,7 +10,10 @@ const Payment = ({ plan, onSuccess }) => {
 
     try {
       // Load Stripe.js
-      const stripe = await loadStripe('pk_test_51QaahiDI7vvAgiemayuZTrf2OiNgJTe8l9NexhsZr80oFnDGNJs0D9Rke0EK5JLHrgjqHQ3wekJhaExZDBFC7yJ400B2ko62HY');
+      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
+      // Get the current user's ID
+      const { data: { user } } = await supabase.auth.getUser();
 
       // Redirect to Stripe Checkout
       const { error } = await stripe.redirectToCheckout({
@@ -17,6 +21,7 @@ const Payment = ({ plan, onSuccess }) => {
         mode: 'subscription',
         successUrl: `${window.location.origin}/subscription-success`,
         cancelUrl: `${window.location.origin}/subscription-cancel`,
+        clientReferenceId: user.id, // Pass the user ID here
       });
 
       if (error) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../../lib/supabase'; // Adjust the import path as needed
 import VenueDashboard from './Dashboard';
 import Payment from './Payment'; // Import the Payment component
 
@@ -110,18 +110,18 @@ const SubscriptionContent = () => {
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-xl font-semibold mb-4">Available Plans</h2>
         <div className="space-y-4">
-        {subscriptionPlans.map((plan) => (
+          {subscriptionPlans.map((plan) => (
             <div key={plan.name} className="flex justify-between items-center">
-                <div>
+              <div>
                 <p className="text-lg font-bold">{plan.name}</p>
                 <p className="text-sm text-gray-600">{plan.price}</p>
-                </div>
-                <Payment
+              </div>
+              <Payment
                 plan={plan}
                 onSuccess={() => handlePaymentSuccess(plan)}
-                />
+              />
             </div>
-            ))}
+          ))}
         </div>
       </div>
     </div>
