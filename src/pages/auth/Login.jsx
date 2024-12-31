@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
-import classNames from 'classnames'; // For cleaner conditional styling
+import classNames from 'classnames';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,7 +19,6 @@ const Login = () => {
     setError(null);
 
     try {
-      // 1. Sign in with Supabase Auth
       const { data: { user }, error: authError } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
@@ -27,7 +26,6 @@ const Login = () => {
 
       if (authError) throw authError;
 
-      // 2. Check if user is a performer or venue
       const { data: performerData } = await supabase
         .from('performers')
         .select('*')
@@ -40,7 +38,6 @@ const Login = () => {
         .eq('id', user.id)
         .single();
 
-      // 3. Redirect based on user type
       if (performerData) {
         navigate('/performer/dashboard');
       } else if (venueData) {
@@ -95,7 +92,6 @@ const Login = () => {
   );
 };
 
-// Reusable Form Field Component
 const FormField = ({ id, name, type, label, value, onChange, required }) => (
   <div>
     <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -108,19 +104,24 @@ const FormField = ({ id, name, type, label, value, onChange, required }) => (
       value={value}
       onChange={onChange}
       required={required}
-      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+      className={classNames(
+        'mt-1 block w-full rounded-md border-gray-300 shadow-sm transition-all duration-200',
+        'focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
+        'hover:border-gray-400',
+        'placeholder-gray-400',
+        'cursor-text'
+      )}
+      placeholder={label}
     />
   </div>
 );
 
-// Reusable Error Message Component
 const ErrorMessage = ({ message }) => (
   <div className="text-red-600 text-sm">
     {message}
   </div>
 );
 
-// Reusable Submit Button Component
 const SubmitButton = ({ loading }) => (
   <div>
     <button
