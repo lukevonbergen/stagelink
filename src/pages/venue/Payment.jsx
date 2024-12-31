@@ -19,8 +19,8 @@ const Payment = ({ plan, onSuccess }) => {
       const { error } = await stripe.redirectToCheckout({
         lineItems: [{ price: plan.priceId, quantity: 1 }],
         mode: 'subscription',
-        successUrl: `${window.location.origin}/subscription-success`,
-        cancelUrl: `${window.location.origin}/subscription-cancel`,
+        successUrl: `${window.location.origin}/subscriptions`,
+        cancelUrl: `${window.location.origin}/subscriptions`,
         clientReferenceId: user.id, // Pass the user ID here
       });
 
