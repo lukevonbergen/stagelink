@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames'; // For cleaner conditional styling
 
 const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -32,21 +27,20 @@ const Login = () => {
 
       if (authError) throw authError;
 
-      // 2. Check if user is a performer
+      // 2. Check if user is a performer or venue
       const { data: performerData } = await supabase
         .from('performers')
         .select('*')
         .eq('id', user.id)
         .single();
 
-      // 3. Check if user is a venue
       const { data: venueData } = await supabase
         .from('venues')
         .select('*')
         .eq('id', user.id)
         .single();
 
-      // 4. Redirect based on user type
+      // 3. Redirect based on user type
       if (performerData) {
         navigate('/performer/dashboard');
       } else if (venueData) {
@@ -54,7 +48,6 @@ const Login = () => {
       } else {
         throw new Error('Account type not found');
       }
-
     } catch (error) {
       setError(error.message);
     } finally {
@@ -73,54 +66,77 @@ const Login = () => {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                onChange={handleChange}
-              />
-            </div>
+            <FormField
+              id="email"
+              name="email"
+              type="email"
+              label="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <FormField
+              id="password"
+              name="password"
+              type="password"
+              label="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                onChange={handleChange}
-              />
-            </div>
+            {error && <ErrorMessage message={error} />}
 
-            {error && (
-              <div className="text-red-600 text-sm">
-                {error}
-              </div>
-            )}
-
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-              >
-                {loading ? 'Signing in...' : 'Sign in'}
-              </button>
-            </div>
+            <SubmitButton loading={loading} />
           </form>
         </div>
       </div>
     </div>
   );
 };
+
+// Reusable Form Field Component
+const FormField = ({ id, name, type, label, value, onChange, required }) => (
+  <div>
+    <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+      {label}
+    </label>
+    <input
+      id={id}
+      name={name}
+      type={type}
+      value={value}
+      onChange={onChange}
+      required={required}
+      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+    />
+  </div>
+);
+
+// Reusable Error Message Component
+const ErrorMessage = ({ message }) => (
+  <div className="text-red-600 text-sm">
+    {message}
+  </div>
+);
+
+// Reusable Submit Button Component
+const SubmitButton = ({ loading }) => (
+  <div>
+    <button
+      type="submit"
+      disabled={loading}
+      className={classNames(
+        'w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500',
+        {
+          'bg-blue-600 hover:bg-blue-700': !loading,
+          'bg-blue-400 cursor-not-allowed': loading,
+        }
+      )}
+    >
+      {loading ? 'Signing in...' : 'Sign in'}
+    </button>
+  </div>
+);
 
 export default Login;
