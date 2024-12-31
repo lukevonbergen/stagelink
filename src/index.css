@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes float {
+    0% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(-20px, 20px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+  
+  .floating {
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .floating-slow {
+    animation: float 12s ease-in-out infinite;
+  }
+  
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .gradient-shift {
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 10s ease infinite;
+  }
+
+
+/* Full-screen calendar styles */
+.rbc-calendar {
+  font-family: 'Inter', sans-serif;
+  height: 100%;
+}
+
+.rbc-header {
+  background-color: #f3f4f6;
+  padding: 10px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.rbc-event {
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 5px;
+  color: white;
+}
+
+.rbc-event-content {
+  font-size: 14px;
+}
+
+.rbc-today {
+  background-color: #e0f2fe;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rbc-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rbc-toolbar button {
+    margin: 2px 0;
+  }
+}
