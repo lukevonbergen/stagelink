@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -23,8 +23,36 @@ const navigation = [
 
 const PerformerFrame = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [stageName, setStageName] = useState('');
+  const [performerId, setPerformerId] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Fetch performer data
+  useEffect(() => {
+    const fetchPerformerData = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          // Fetch performer details
+          const { data: performerData, error } = await supabase
+            .from('performers')
+            .select('stage_name, id')
+            .eq('id', user.id)
+            .single();
+
+          if (error) throw error;
+
+          setStageName(performerData.stage_name);
+          setPerformerId(performerData.id);
+        }
+      } catch (error) {
+        console.error('Error fetching performer data:', error);
+      }
+    };
+
+    fetchPerformerData();
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -34,6 +62,11 @@ const PerformerFrame = ({ children }) => {
   return (
     <>
       <div>
+        {/* Strip Bar */}
+        <div className="bg-blue-600 text-white text-sm py-2 text-center">
+          You are logged in as <strong>{stageName}</strong>: <code>{performerId}</code>
+        </div>
+
         {/* Mobile Sidebar */}
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
