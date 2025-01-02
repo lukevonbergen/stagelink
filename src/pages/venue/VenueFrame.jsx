@@ -9,6 +9,7 @@ import {
   BanknotesIcon,
   ChartBarIcon,
   CreditCardIcon,
+  CubeIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 import { supabase } from '../../lib/supabase';
@@ -18,10 +19,10 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/stagelink_logo.png';
 
 const navigation = [
-  { name: 'Book Performers', href: '/venue/book', icon: CalendarDaysIcon },
+  { name: 'Dashboard', href: '/venue/dashboard', icon: CubeIcon },
+  { name: 'Book', href: '/venue/book', icon: CalendarDaysIcon },
   { name: 'Spending', href: '/venue/spending', icon: BanknotesIcon },
   { name: 'Reports', href: '/venue/reports', icon: ChartBarIcon },
-  { name: 'Profile', href: '/venue/profile', icon: UserCircleIcon },
   { name: 'Subscription', href: '/venue/subscription', icon: CreditCardIcon },
 ];
 
