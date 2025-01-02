@@ -10,13 +10,16 @@ import {
   BanknotesIcon,
   ChartBarIcon,
   CubeIcon,
+  Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 
+// Import the logo
+import logo from '../../assets/stagelink_logo.png';
+
 const navigation = [
   { name: 'Dashboard', href: '/performer/dashboard', icon: CubeIcon },
-  { name: 'Profile', href: '/performer/profile', icon: UserCircleIcon },
   { name: 'Availability', href: '/performer/availability', icon: CalendarDaysIcon },
   { name: 'Performances', href: '/performer/performances', icon: MusicalNoteIcon },
   { name: 'Earnings', href: '/performer/earnings', icon: BanknotesIcon },
@@ -65,23 +68,27 @@ const PerformerFrame = ({ children }) => {
     <>
       <div>
         {/* Top Strip Bar */}
-        <div className="w-full bg-gradient-to-r from-blue-100 to-purple-50 border-b border-gray-200 py-3 px-6 text-sm text-gray-700 shadow-sm fixed top-0 z-50">
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
-                <span>
-                You are logged in as <strong>{stageName}</strong>: <strong>{performerId}</strong>
-                </span>
-                <button
-                onClick={handleLogout}
-                className="text-gray-700 hover:text-gray-900 transition duration-200"
-                >
-                Logout
-                </button>
-            </div>
+        <div className="w-full bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-200 py-3 px-6 text-sm text-gray-700 shadow-sm fixed top-0 z-50">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <span>
+              You are logged in as <strong>{stageName}</strong>: <strong>{performerId}</strong>
+            </span>
+          </div>
         </div>
 
         {/* Horizontal Navigation Bar */}
         <div className="w-full bg-white border-b border-gray-200 py-3 px-6 shadow-sm fixed top-12 z-40">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <img
+                className="h-8 w-auto"
+                src={logo} // Use the imported logo
+                alt="StageLink Logo"
+              />
+            </div>
+
+            {/* Navigation Links */}
             <nav className="flex space-x-6">
               {navigation.map((item) => (
                 <Link
@@ -98,6 +105,51 @@ const PerformerFrame = ({ children }) => {
                 </Link>
               ))}
             </nav>
+
+            {/* Settings Dropdown */}
+            <Menu as="div" className="relative">
+              <Menu.Button className="flex items-center text-gray-500 hover:text-gray-900">
+                <Cog6ToothIcon className="h-6 w-6" aria-hidden="true" />
+              </Menu.Button>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-1 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-1 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="/performer/profile"
+                          className={`block px-4 py-2 text-sm ${
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                          }`}
+                        >
+                          Edit Profile
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={handleLogout}
+                          className={`w-full text-left px-4 py-2 text-sm ${
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                          }`}
+                        >
+                          Logout
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                </Menu.Items>
+              </Transition>
+            </Menu>
           </div>
         </div>
 
