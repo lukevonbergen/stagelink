@@ -115,14 +115,34 @@ const DashboardContent = () => {
           </h2>
           {upcomingPerformances.length > 0 ? (
             <div className="space-y-3">
-              {upcomingPerformances.map((performance) => (
-                <div key={performance.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                  <p className="text-lg font-semibold">{performance.venue_name}</p>
-                  <p className="text-sm text-gray-600">
-                    {new Date(performance.date).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' })} | {formatTime(performance.start_time)} - {formatTime(performance.end_time)}
-                  </p>
-                </div>
-              ))}
+              {upcomingPerformances.map((performance) => {
+                const startTime = new Date(`1970-01-01T${performance.start_time}`);
+                const endTime = new Date(`1970-01-01T${performance.end_time}`);
+                const totalHours = (endTime - startTime) / (1000 * 60 * 60);
+
+                return (
+                  <div key={performance.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                    <div className="flex items-center mb-2">
+                      <Calendar className="w-4 h-4 mr-2 text-blue-500" />
+                      <p className="text-lg font-semibold">{formatDate(performance.date)}</p>
+                    </div>
+                    <div className="flex items-center mb-2">
+                      <Clock className="w-4 h-4 mr-2 text-green-500" />
+                      <p className="text-sm text-gray-600">
+                        {formatTime(performance.start_time)} - {formatTime(performance.end_time)}
+                      </p>
+                    </div>
+                    <div className="flex items-center mb-2">
+                      <MapPin className="w-4 h-4 mr-2 text-red-500" />
+                      <p className="text-sm text-gray-600">{performance.venue_name}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <CheckCircle className="w-4 h-4 mr-2 text-purple-500" />
+                      <p className="text-sm text-gray-600">Total Duration: {totalHours.toFixed(1)} hours</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <p className="text-gray-600">No upcoming performances.</p>
@@ -171,7 +191,7 @@ const DashboardContent = () => {
             <p className="text-gray-600">No availability slots.</p>
           )}
         </div>
-        
+
         {/* Performance Ratings */}
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
