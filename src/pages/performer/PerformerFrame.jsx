@@ -65,18 +65,18 @@ const PerformerFrame = ({ children }) => {
     <>
       <div>
         {/* Top Strip Bar */}
-        <div className="w-full bg-white border-b border-gray-200 py-3 px-6 text-sm text-gray-700 shadow-sm fixed top-0 z-50">
-          <div className="max-w-7xl mx-auto flex justify-between items-center">
-            <span>
-              You are logged in as <strong>{stageName}</strong>: {performerId}
-            </span>
-            <button
-              onClick={handleLogout}
-              className="text-gray-700 hover:text-gray-900 transition duration-200"
-            >
-              Logout
-            </button>
-          </div>
+        <div className="w-full bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-200 py-3 px-6 text-sm text-gray-700 shadow-sm fixed top-0 z-50">
+            <div className="max-w-7xl mx-auto flex justify-between items-center">
+                <span>
+                You are logged in as <strong>{stageName}</strong>: <strong>{performerId}</strong>
+                </span>
+                <button
+                onClick={handleLogout}
+                className="text-gray-700 hover:text-gray-900 transition duration-200"
+                >
+                Logout
+                </button>
+            </div>
         </div>
 
         {/* Horizontal Navigation Bar */}
