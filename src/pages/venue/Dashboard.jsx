@@ -17,11 +17,10 @@ const DashboardContent = () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          // Fetch the next confirmed performance from performer_availability
+          // Fetch the next performance from performer_availability
           const { data: nextPerformanceData, error: nextPerformanceError } = await supabase
             .from('performer_availability')
             .select('*')
-            .eq('status', 'confirmed')
             .order('date', { ascending: true })
             .limit(1);
 
@@ -40,16 +39,15 @@ const DashboardContent = () => {
           const totalRating = ratingsData.reduce((sum, rating) => sum + rating.overall_rating, 0);
           const avgRating = ratingsData.length > 0 ? totalRating / ratingsData.length : 0;
 
-          // Fetch all upcoming confirmed performances from performer_availability
+          // Fetch all upcoming performances from performer_availability
           const { data: upcomingEventsData, error: upcomingEventsError } = await supabase
             .from('performer_availability')
             .select('*')
-            .eq('status', 'confirmed')
             .order('date', { ascending: true });
 
           if (upcomingEventsError) throw upcomingEventsError;
 
-          // Calculate the total confirmed cost
+          // Calculate the total cost
           const totalCost = upcomingEventsData.reduce((sum, event) => sum + event.rate_per_hour, 0);
 
           // Filter out today's events
