@@ -115,7 +115,7 @@ const ProfileContent = () => {
   );
 };
 
-// Wrap with VenueDashboard
+// Wrap with VenueFrame
 const Profile = () => (
   <VenueFrame>
     <ProfileContent />

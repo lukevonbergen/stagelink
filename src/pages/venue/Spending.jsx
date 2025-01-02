@@ -40,7 +40,7 @@ const SpendingContent = () => {
         {spending.map((booking) => (
           <div key={booking.id} className="bg-white rounded-lg shadow-lg p-6">
             <p className="text-lg font-bold">Booking ID: {booking.id}</p>
-            <p className="text-sm text-gray-600">Amount: ${booking.amount}</p>
+            <p className="text-sm text-gray-600">Amount: £{booking.booking_rate}</p>
             <p className="text-sm text-gray-600">Status: {booking.status}</p>
           </div>
         ))}
@@ -49,7 +49,7 @@ const SpendingContent = () => {
   );
 };
 
-// Wrap with VenueDashboard
+// Wrap with VenueFrame
 const Spending = () => (
   <VenueFrame>
     <SpendingContent />

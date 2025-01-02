@@ -46,7 +46,7 @@ const ReportsContent = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="amount" fill="#3b82f6" name="Bookings" />
+            <Bar dataKey="booking_rate" fill="#3b82f6" name="Bookings" />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -54,7 +54,7 @@ const ReportsContent = () => {
   );
 };
 
-// Wrap with VenueDashboard
+// Wrap with VenueFrame
 const Reports = () => (
   <VenueFrame>
     <ReportsContent />

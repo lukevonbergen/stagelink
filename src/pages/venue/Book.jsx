@@ -15,9 +15,6 @@ const BookContent = () => {
     setError(null);
 
     try {
-      // Convert search date and time to a timestamp for querying
-      const searchDateTime = `${searchDate}T${searchTime}`;
-
       // Query the performer_availability table for matching slots
       const { data, error } = await supabase
         .from('performer_availability')
@@ -121,8 +118,8 @@ const BookContent = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-lg font-bold">{slot.performer?.stage_name}</p>
-                  <p className="text-sm text-gray-600">Type: {slot.performer?.performance_t}</p>
-                  <p className="text-sm text-gray-600">Price: ${slot.rate_per_hour}/hour</p>
+                  <p className="text-sm text-gray-600">Type: {slot.performer?.performance_type}</p>
+                  <p className="text-sm text-gray-600">Price: £{slot.rate_per_hour}/hour</p>
                   <p className="text-sm text-gray-600">Date: {slot.date}</p>
                   <p className="text-sm text-gray-600">Time: {slot.start_time} - {slot.end_time}</p>
                 </div>
@@ -145,7 +142,7 @@ const BookContent = () => {
   );
 };
 
-// Wrap with VenueDashboard
+// Wrap with VenueFrame
 const Book = () => (
   <VenueFrame>
     <BookContent />
