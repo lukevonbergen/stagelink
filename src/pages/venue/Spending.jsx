@@ -12,8 +12,9 @@ const SpendingContent = () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
+          // Fetch performances (assuming this is the correct table)
           const { data, error } = await supabase
-            .from('bookings')
+            .from('performances')
             .select('*')
             .eq('venue_id', user.id);
 
@@ -37,11 +38,11 @@ const SpendingContent = () => {
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Spending Overview</h1>
       <div className="space-y-4">
-        {spending.map((booking) => (
-          <div key={booking.id} className="bg-white rounded-lg shadow-lg p-6">
-            <p className="text-lg font-bold">Booking ID: {booking.id}</p>
-            <p className="text-sm text-gray-600">Amount: £{booking.booking_rate}</p>
-            <p className="text-sm text-gray-600">Status: {booking.status}</p>
+        {spending.map((performance) => (
+          <div key={performance.id} className="bg-white rounded-lg shadow-lg p-6">
+            <p className="text-lg font-bold">Performance ID: {performance.id}</p>
+            <p className="text-sm text-gray-600">Amount: £{performance.booking_rate}</p>
+            <p className="text-sm text-gray-600">Status: {performance.status}</p>
           </div>
         ))}
       </div>
