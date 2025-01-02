@@ -11,6 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 // Set up the localizer for moment
 const localizer = momentLocalizer(moment);
 
+// Define the PerformancesContent component
 const PerformancesContent = () => {
   const [performances, setPerformances] = useState([]);
   const [availability, setAvailability] = useState([]);
@@ -94,44 +95,6 @@ const PerformancesContent = () => {
     })),
   ];
 
-  // Custom event styles based on status
-  const eventPropGetter = (event) => {
-    let style = {
-      backgroundColor: '#3182CE', // Default color for availability
-      color: '#fff',
-      borderRadius: '4px',
-      border: 'none',
-    };
-
-    if (event.status === 'confirmed') {
-      style.backgroundColor = '#38A169'; // Green for confirmed performances
-    } else if (event.status === 'past') {
-      style.backgroundColor = '#718096'; // Gray for past performances
-    } else if (event.type === 'availability') {
-      style.backgroundColor = '#3182CE'; // Blue for availability
-    }
-
-    return {
-      style,
-    };
-  };
-
-  // Custom event component
-  const EventComponent = ({ event }) => (
-    <div className="p-2">
-      <strong>{event.title}</strong>
-      <p className="text-sm">
-        {moment(event.start).format('h:mm A')} - {moment(event.end).format('h:mm A')}
-      </p>
-      {event.type === 'performance' && (
-        <>
-          <p className="text-sm">Status: {event.status}</p>
-          <p className="text-sm">Booking Rate: ${event.booking_rate}</p>
-        </>
-      )}
-    </div>
-  );
-
   // Handle adding availability slot
   const handleAddAvailability = async () => {
     if (!performerId) {
@@ -180,15 +143,6 @@ const PerformancesContent = () => {
     }
   };
 
-  // Time options for the time selectors
-  const timeOptions = [];
-  for (let hour = 0; hour < 24; hour++) {
-    for (let minute = 0; minute < 60; minute += 15) {
-      const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-      timeOptions.push(time);
-    }
-  }
-
   if (loading) return <div className="text-center py-8">Loading...</div>;
   if (error) return <div className="text-center py-8 text-red-600">Error: {error}</div>;
 
@@ -213,10 +167,6 @@ const PerformancesContent = () => {
           startAccessor="start"
           endAccessor="end"
           style={{ height: '100%' }}
-          components={{
-            event: EventComponent,
-          }}
-          eventPropGetter={eventPropGetter} // Apply custom styles
           defaultView="week"
           views={['week']}
           min={new Date(0, 0, 0, 0, 0, 0)} // Start at midnight
@@ -323,9 +273,11 @@ const PerformancesContent = () => {
   );
 };
 
+// Wrap with PerformerFrame
 const Performances = () => (
   <PerformerFrame>
-    <ProfileContent />
+    <PerformancesContent />
   </PerformerFrame>
 );
+
 export default Performances;
