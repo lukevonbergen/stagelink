@@ -1,20 +1,65 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 const PublicLayout = () => {
   return (
     <>
-      <nav className="bg-gray-100 p-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="font-bold text-xl">StageLink</Link>
-          <div className="space-x-4">
-            <Link to="/" className="hover:text-blue-600">Home</Link>
-            <Link to="/performer/signup" className="hover:text-blue-600">Performer Signup</Link>
-            <Link to="/venue/signup" className="hover:text-blue-600">Venue Signup</Link>
-            <Link to="/login" className="hover:text-blue-600">Login</Link>
+      {/* Navbar */}
+      <nav className="navbar is-fixed-top is-light" role="navigation" aria-label="main navigation">
+        <div className="container">
+          <div className="navbar-brand">
+            {/* Logo */}
+            <Link to="/" className="navbar-item">
+              <img
+                src="/logo.png" // Replace with your logo path
+                alt="StageLink Logo"
+                width="112"
+                height="28"
+              />
+            </Link>
+
+            {/* Hamburger Menu (for mobile) */}
+            <a
+              role="button"
+              className="navbar-burger"
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarBasic"
+            >
+              <FontAwesomeIcon icon={faBars} />
+            </a>
+          </div>
+
+          {/* Navbar Menu */}
+          <div id="navbarBasic" className="navbar-menu">
+            <div className="navbar-start">
+              <Link to="/#features" className="navbar-item">
+                Features
+              </Link>
+              <Link to="/#pricing" className="navbar-item">
+                Pricing
+              </Link>
+              <Link to="/#case-studies" className="navbar-item">
+                Case Studies
+              </Link>
+            </div>
+
+            <div className="navbar-end">
+              <div className="navbar-item">
+                <div className="buttons">
+                  <Link to="/login" className="button is-primary is-rounded">
+                    <strong>Login</strong>
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
+
+      {/* Render the child routes */}
       <Outlet />
     </>
   );
