@@ -1,66 +1,83 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { Menu, Transition } from '@headlessui/react';
+import {
+  Bars3Icon,
+  Cog6ToothIcon,
+} from '@heroicons/react/24/outline';
+
+// Import the logo
+import logo from '../../assets/stagelink_logo.png';
 
 const PublicLayout = () => {
   return (
     <>
-      {/* Navbar */}
-      <nav className="navbar is-fixed-top is-light" role="navigation" aria-label="main navigation">
-        <div className="container">
-          <div className="navbar-brand">
+      {/* Top Strip Bar */}
+      <div className="w-full bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-200 py-3 px-6 text-sm text-gray-700 shadow-sm fixed top-0 z-50 h-12">
+        <div className="max-w-7xl mx-auto flex justify-center items-center h-full">
+          <span>
+            Welcome to <strong>StageLink</strong> - Your gateway to seamless event management.
+          </span>
+        </div>
+      </div>
+
+      {/* Horizontal Navigation Bar */}
+      <div className="w-full bg-white border-b border-gray-200 py-3 px-6 shadow-sm fixed top-12 z-40 h-16">
+        <div className="flex items-center justify-between h-full">
+          {/* Logo and Navigation Links */}
+          <div className="flex items-center space-x-8">
             {/* Logo */}
-            <Link to="/" className="navbar-item">
+            <div className="flex-shrink-0">
               <img
-                src="/logo.png" // Replace with your logo path
+                className="h-8 w-auto"
+                src={logo}
                 alt="StageLink Logo"
-                width="112"
-                height="28"
               />
-            </Link>
+            </div>
 
-            {/* Hamburger Menu (for mobile) */}
-            <a
-              role="button"
-              className="navbar-burger"
-              aria-label="menu"
-              aria-expanded="false"
-              data-target="navbarBasic"
-            >
-              <FontAwesomeIcon icon={faBars} />
-            </a>
-          </div>
-
-          {/* Navbar Menu */}
-          <div id="navbarBasic" className="navbar-menu">
-            <div className="navbar-start">
-              <Link to="/#features" className="navbar-item">
+            {/* Navigation Links */}
+            <nav className="flex space-x-6">
+              <Link
+                to="/#features"
+                className="text-sm font-medium text-gray-500 hover:text-gray-900"
+              >
                 Features
               </Link>
-              <Link to="/#pricing" className="navbar-item">
+              <Link
+                to="/#pricing"
+                className="text-sm font-medium text-gray-500 hover:text-gray-900"
+              >
                 Pricing
               </Link>
-              <Link to="/#case-studies" className="navbar-item">
+              <Link
+                to="/#case-studies"
+                className="text-sm font-medium text-gray-500 hover:text-gray-900"
+              >
                 Case Studies
               </Link>
-            </div>
+            </nav>
+          </div>
 
-            <div className="navbar-end">
-              <div className="navbar-item">
-                <div className="buttons">
-                  <Link to="/login" className="button is-primary is-rounded">
-                    <strong>Login</strong>
-                  </Link>
-                </div>
-              </div>
-            </div>
+          {/* Login Button */}
+          <div className="flex items-center">
+            <Link
+              to="/login"
+              className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
+            >
+              Login
+            </Link>
           </div>
         </div>
-      </nav>
+      </div>
 
-      {/* Render the child routes */}
-      <Outlet />
+      {/* Main Content */}
+      <div className="pt-28"> {/* Adjusted to account for the combined height of the strip nav and main nav */}
+        <main className="py-10">
+          <div className="px-4 sm:px-6 lg:px-8">
+            <Outlet />
+          </div>
+        </main>
+      </div>
     </>
   );
 };
