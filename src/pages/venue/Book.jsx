@@ -19,8 +19,8 @@ const BookContent = () => {
       const { data, error } = await supabase
         .from('performer_availability')
         .select('*')
-        .gte('date', searchDate) // Filter by date
-        .eq('start_time', searchTime); // Filter by start time
+        .eq('date', searchDate) // Filter by exact date
+        .eq('start_time', searchTime); // Filter by exact start time
 
       if (error) throw error;
 
@@ -45,16 +45,36 @@ const BookContent = () => {
   };
 
   // Handle booking a performer
-  const handleBookPerformer = async (slotId) => {
+  const handleBookPerformer = async (slot) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        const { error } = await supabase
-          .from('bookings')
-          .insert([{ slot_id: slotId, venue_id: user.id, status: 'pending' }]);
+        // Insert the booking into the performances table
+        const { error: insertError } = await supabase
+          .from('performances')
+          .insert([{
+            venue_id: user.id,
+            performer_id: slot.performer_id,
+            date: slot.date,
+            start_time: slot.start_time,
+            end_time: slot.end_time,
+            booking_rate: slot.rate_per_hour,
+            status: 'pending'
+          }]);
 
-        if (error) throw error;
+        if (insertError) throw insertError;
+
+        // Remove the availability slot from the performer_availability table
+        const { error: deleteError } = await supabase
+          .from('performer_availability')
+          .delete()
+          .eq('id', slot.id);
+
+        if (deleteError) throw deleteError;
+
         alert('Performer booked successfully!');
+        // Refresh the performers list
+        handleSearch();
       }
     } catch (error) {
       setError(error.message);
@@ -124,7 +144,7 @@ const BookContent = () => {
                   <p className="text-sm text-gray-600">Time: {slot.start_time} - {slot.end_time}</p>
                 </div>
                 <button
-                  onClick={() => handleBookPerformer(slot.id)}
+                  onClick={() => handleBookPerformer(slot)}
                   className="btn btn-primary"
                 >
                   Book Now
