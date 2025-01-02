@@ -42,7 +42,7 @@ const VenueFrame = ({ children }) => {
           const { data: venueData, error } = await supabase
             .from('venues')
             .select('venue_name, id')
-            .eq('user_id', user.id)
+            .eq('id', user.id) // Use the correct column name here
             .single();
 
           if (error) throw error;
