@@ -72,8 +72,8 @@ const PublicLayout = () => {
 
       {/* Main Content */}
       <div className="pt-28"> {/* Adjusted to account for the combined height of the strip nav and main nav */}
-        <main className="py-10">
-          <div className="px-4 sm:px-6 lg:px-8">
+        <main className="p-0"> {/* Removed padding here */}
+          <div className="p-0"> {/* Removed padding here */}
             <Outlet />
           </div>
         </main>
