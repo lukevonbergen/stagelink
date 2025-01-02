@@ -15,7 +15,10 @@ const DashboardContent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        if (authError) throw authError;
+        console.log('User:', user);
+
         if (user) {
           // Fetch the next performance from performer_availability
           const { data: nextPerformanceData, error: nextPerformanceError } = await supabase
@@ -25,8 +28,9 @@ const DashboardContent = () => {
             .limit(1);
 
           if (nextPerformanceError) throw nextPerformanceError;
+          console.log('Next Performance Data:', nextPerformanceData);
 
-          // Fetch the last 15 performers' ratings (assuming ratings are stored in a separate table)
+          // Fetch the last 15 performers' ratings
           const { data: ratingsData, error: ratingsError } = await supabase
             .from('ratings')
             .select('overall_rating')
@@ -34,6 +38,7 @@ const DashboardContent = () => {
             .limit(15);
 
           if (ratingsError) throw ratingsError;
+          console.log('Ratings Data:', ratingsData);
 
           // Calculate the average rating
           const totalRating = ratingsData.reduce((sum, rating) => sum + rating.overall_rating, 0);
@@ -46,6 +51,7 @@ const DashboardContent = () => {
             .order('date', { ascending: true });
 
           if (upcomingEventsError) throw upcomingEventsError;
+          console.log('Upcoming Events Data:', upcomingEventsData);
 
           // Calculate the total cost
           const totalCost = upcomingEventsData.reduce((sum, event) => sum + event.rate_per_hour, 0);
@@ -60,6 +66,7 @@ const DashboardContent = () => {
           setUpcomingEvents(filteredEvents);
         }
       } catch (error) {
+        console.error('Error fetching data:', error);
         setError(error.message);
       } finally {
         setLoading(false);
