@@ -38,13 +38,13 @@ const Login = () => {
         .eq('id', user.id)
         .single();
 
-      if (performerData) {
-        navigate('/performer/dashboard';
-      } else if (venueData) {
-        navigate('/venue/dashboard';
-      } else {
-        throw new Error('Account type not found';
-      }
+        if (performerData) {
+          navigate('/performer/dashboard');
+        } else if (venueData) {
+          navigate('/venue/dashboard');
+        } else {
+          throw new Error('Account type not found');
+        }
     } catch (error) {
       setError(error.message);
     } finally {
