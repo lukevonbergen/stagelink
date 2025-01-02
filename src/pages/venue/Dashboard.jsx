@@ -34,7 +34,7 @@ const DashboardContent = () => {
           const { data: ratingsData, error: ratingsError } = await supabase
             .from('ratings')
             .select('overall_rating')
-            .order('created_at', { ascending: false })
+            .order('rated_at', { ascending: false }) // Use 'rated_at' instead of 'created_at'
             .limit(15);
 
           if (ratingsError) throw ratingsError;
