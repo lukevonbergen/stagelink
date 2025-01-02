@@ -4,7 +4,7 @@ import PerformerFrame from './PerformerFrame';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Calendar as CalendarIcon, Clock, DollarSign, X } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, DollarSign, X, MapPin } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -32,6 +32,7 @@ const PerformancesContent = () => {
   const [endTime, setEndTime] = useState('17:00');
   const [ratePerHour, setRatePerHour] = useState('');
   const [performerId, setPerformerId] = useState(null);
+  const [selectedPerformance, setSelectedPerformance] = useState(null);
 
   // Fetch confirmed and past performances
   useEffect(() => {
@@ -54,7 +55,7 @@ const PerformancesContent = () => {
               booking_rate,
               created_at,
               date,
-              venues:venue_id ( venue_name )
+              venues:venue_id ( venue_name, address )
             `)
             .eq('performer_id', user.id)
             .in('status', ['confirmed', 'past'])
@@ -93,6 +94,7 @@ const PerformancesContent = () => {
       status: performance.status,
       booking_rate: performance.booking_rate,
       type: 'performance',
+      venue: performance.venues,
     })),
     ...availability.map((slot) => ({
       id: slot.id,
@@ -152,6 +154,18 @@ const PerformancesContent = () => {
     }
   };
 
+  // Handle clicking on a performance event
+  const handleEventClick = (event) => {
+    if (event.type === 'performance') {
+      setSelectedPerformance(event);
+    }
+  };
+
+  // Handle closing the performance modal
+  const handleClosePerformanceModal = () => {
+    setSelectedPerformance(null);
+  };
+
   if (loading) return <div className="text-center py-8">Loading...</div>;
   if (error) return <div className="text-center py-8 text-red-600">Error: {error}</div>;
 
@@ -183,6 +197,7 @@ const PerformancesContent = () => {
           step={30} // 30-minute intervals
           timeslots={2} // Two timeslots per hour
           defaultDate={new Date()}
+          onSelectEvent={handleEventClick}
         />
       </div>
 
@@ -274,6 +289,56 @@ const PerformancesContent = () => {
               className="btn btn-primary w-full"
             >
               Add Availability
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Performance Details Modal */}
+      {selectedPerformance && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-base-100 rounded-lg p-6 w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Performance Details</h2>
+              <button
+                onClick={handleClosePerformanceModal}
+                className="btn btn-ghost"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Venue Name */}
+            <div className="space-y-2 mb-4">
+              <label className="label">
+                <span className="label-text flex items-center">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Venue
+                </span>
+              </label>
+              <p className="text-lg font-semibold">{selectedPerformance.venue.venue_name}</p>
+            </div>
+
+            {/* Venue Address */}
+            <div className="space-y-2 mb-4">
+              <label className="label">
+                <span className="label-text flex items-center">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Address
+                </span>
+              </label>
+              <p className="text-lg font-semibold">{selectedPerformance.venue.address}</p>
+            </div>
+
+            {/* Get Directions Button */}
+            <button
+              onClick={() => {
+                const address = encodeURIComponent(selectedPerformance.venue.address);
+                window.open(`https://www.google.com/maps/dir/?api=1&destination=${address}`, '_blank');
+              }}
+              className="btn btn-primary w-full"
+            >
+              Get Directions
             </button>
           </div>
         </div>
