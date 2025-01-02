@@ -1,201 +1,107 @@
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faLink,         // For the Stagelink logo
-  faCalendarAlt,  // For the "Easy Booking" feature
-  faChartLine,    // For the "Analytics" feature
-  faComments,     // For the "Communication" feature
-} from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-scroll';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import logo from '../../assets/stagelink_logo.png';
 
 const LandingPage = () => {
-  // Initialize AOS (Animate On Scroll)
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
-
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="hero is-fullheight is-light">
-        {/* Hero Body */}
-        <div className="hero-body">
-          <div className="container has-text-centered">
-            <motion.h1
-              className="title is-1 has-text-weight-bold"
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-            >
-              Streamline Your Live Performances
-            </motion.h1>
-            <motion.h2
-              className="subtitle is-4 has-text-grey"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
-              Stagelink connects venues and performers, making booking and management effortless.
-            </motion.h2>
-            <div className="buttons is-centered">
-              <Link to="features" smooth={true} duration={500} className="button is-primary is-large">
-                Learn More
-              </Link>
-            </div>
+    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-purple-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <img
+              className="h-8 w-auto"
+              src={logo}
+              alt="StageLink Logo"
+            />
           </div>
+
+          {/* Navigation Links */}
+          <nav className="flex space-x-6">
+            <Link
+              to="/login"
+              className="text-sm font-medium text-gray-500 hover:text-gray-900"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="text-sm font-medium text-gray-500 hover:text-gray-900"
+            >
+              Register
+            </Link>
+          </nav>
         </div>
-      </section>
+      </header>
+
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <h1 className="text-4xl font-bold text-gray-900 mb-6">
+          Welcome to StageLink
+        </h1>
+        <p className="text-lg text-gray-600 mb-8">
+          Connect with venues, book performances, and grow your career as a performer.
+        </p>
+        <div className="space-x-4">
+          <Link
+            to="/register"
+            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+          >
+            Get Started
+          </Link>
+          <Link
+            to="/login"
+            className="inline-block bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition duration-300"
+          >
+            Login
+          </Link>
+        </div>
+      </div>
 
       {/* Features Section */}
-      <section id="features" className="section">
-        <div className="container">
-          <div className="columns is-centered">
-            <div className="column is-8 has-text-centered">
-              <h2 className="title is-2 has-text-weight-bold" data-aos="fade-up">
-                Features
-              </h2>
-              <p className="subtitle is-5 has-text-grey" data-aos="fade-up" data-aos-delay="200">
-                Everything you need to manage live performances seamlessly.
-              </p>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+          Why Choose StageLink?
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Feature 1 */}
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Easy Booking
+            </h3>
+            <p className="text-gray-600">
+              Seamlessly connect with venues and book performances with just a few clicks.
+            </p>
           </div>
-          <div className="columns is-multiline">
-            <div className="column is-4" data-aos="fade-up" data-aos-delay="300">
-              <div className="box">
-                <div className="icon is-large has-text-primary">
-                  <FontAwesomeIcon icon={faCalendarAlt} size="3x" />
-                </div>
-                <h3 className="title is-4">Easy Booking</h3>
-                <p className="subtitle is-6">
-                  Venues can book performers with just a few clicks. Performers can manage their availability effortlessly.
-                </p>
-              </div>
-            </div>
-            <div className="column is-4" data-aos="fade-up" data-aos-delay="400">
-              <div className="box">
-                <div className="icon is-large has-text-primary">
-                  <FontAwesomeIcon icon={faChartLine} size="3x" />
-                </div>
-                <h3 className="title is-4">Analytics</h3>
-                <p className="subtitle is-6">
-                  Track performance trends, earnings, and booking patterns with detailed analytics.
-                </p>
-              </div>
-            </div>
-            <div className="column is-4" data-aos="fade-up" data-aos-delay="500">
-              <div className="box">
-                <div className="icon is-large has-text-primary">
-                  <FontAwesomeIcon icon={faComments} size="3x" />
-                </div>
-                <h3 className="title is-4">Communication</h3>
-                <p className="subtitle is-6">
-                  Built-in messaging system for seamless communication between venues and performers.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="section has-background-light">
-        <div className="container">
-          <div className="columns is-centered">
-            <div className="column is-8 has-text-centered">
-              <h2 className="title is-2 has-text-weight-bold" data-aos="fade-up">
-                Pricing
-              </h2>
-              <p className="subtitle is-5 has-text-grey" data-aos="fade-up" data-aos-delay="200">
-                Affordable plans for venues and performers of all sizes.
-              </p>
-            </div>
+          {/* Feature 2 */}
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Real-Time Analytics
+            </h3>
+            <p className="text-gray-600">
+              Track your performance metrics and grow your career with actionable insights.
+            </p>
           </div>
-          <div className="columns is-centered">
-            <div className="column is-4" data-aos="fade-up" data-aos-delay="300">
-              <div className="box">
-                <h3 className="title is-4">Basic</h3>
-                <p className="subtitle is-6">For small venues and independent performers.</p>
-                <p className="title is-2">$9.99<span className="subtitle is-6">/month</span></p>
-                <ul>
-                  <li>Up to 10 bookings/month</li>
-                  <li>Basic analytics</li>
-                  <li>Email support</li>
-                </ul>
-                <a href="/login" className="button is-primary is-fullwidth">
-                  Get Started
-                </a>
-              </div>
-            </div>
-            <div className="column is-4" data-aos="fade-up" data-aos-delay="400">
-              <div className="box">
-                <h3 className="title is-4">Pro</h3>
-                <p className="subtitle is-6">For growing venues and professional performers.</p>
-                <p className="title is-2">$29.99<span className="subtitle is-6">/month</span></p>
-                <ul>
-                  <li>Unlimited bookings</li>
-                  <li>Advanced analytics</li>
-                  <li>Priority support</li>
-                </ul>
-                <a href="/login" className="button is-primary is-fullwidth">
-                  Get Started
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="section">
-        <div className="container">
-          <div className="columns is-centered">
-            <div className="column is-8 has-text-centered">
-              <h2 className="title is-2 has-text-weight-bold" data-aos="fade-up">
-                Contact Us
-              </h2>
-              <p className="subtitle is-5 has-text-grey" data-aos="fade-up" data-aos-delay="200">
-                Have questions? We're here to help!
-              </p>
-              <form data-aos="fade-up" data-aos-delay="300">
-                <div className="field">
-                  <div className="control">
-                    <input className="input" type="text" placeholder="Your Name" />
-                  </div>
-                </div>
-                <div className="field">
-                  <div className="control">
-                    <input className="input" type="email" placeholder="Your Email" />
-                  </div>
-                </div>
-                <div className="field">
-                  <div className="control">
-                    <textarea className="textarea" placeholder="Your Message"></textarea>
-                  </div>
-                </div>
-                <div className="field">
-                  <div className="control">
-                    <button className="button is-primary is-fullwidth" type="submit">
-                      Send Message
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
+          {/* Feature 3 */}
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Secure Payments
+            </h3>
+            <p className="text-gray-600">
+              Get paid directly through the platform with secure and reliable payment processing.
+            </p>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Footer */}
-      <footer className="footer">
-        <div className="content has-text-centered">
-          <p>
-            &copy; {new Date().getFullYear()} Stagelink. All rights reserved.
-          </p>
-          <p>
-            <a href="/terms">Terms of Service</a> | <a href="/privacy">Privacy Policy</a>
+      <footer className="bg-white border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+          <p className="text-sm text-gray-500">
+            &copy; {new Date().getFullYear()} StageLink. All rights reserved.
           </p>
         </div>
       </footer>
