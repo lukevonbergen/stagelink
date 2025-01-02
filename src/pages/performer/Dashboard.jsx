@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import PerformerFrame from './PerformerFrame';
-import { Calendar, Clock, DollarSign, Star, CheckCircle } from 'lucide-react';
+import { Calendar, Star, DollarSign, Clock, CheckCircle } from 'lucide-react';
 
 const DashboardContent = () => {
   const [upcomingPerformances, setUpcomingPerformances] = useState([]);
@@ -79,14 +79,43 @@ const DashboardContent = () => {
   if (loading) return <div className="text-center py-8">Loading...</div>;
   if (error) return <div className="text-center py-8 text-red-600">Error: {error}</div>;
 
+  // Calculate key metrics
+  const totalEarnings = recentEarnings.reduce((sum, earning) => sum + earning.amount, 0);
+  const averageRating = performanceRatings.reduce((sum, rating) => sum + rating.overall_rating, 0) / performanceRatings.length;
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Dashboard</h1>
 
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Key Metrics Bar */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="flex items-center">
+            <Calendar className="w-6 h-6 mr-2 text-blue-500" />
+            <span className="text-lg font-semibold">Upcoming Performances</span>
+          </div>
+          <p className="text-2xl font-bold mt-2">{upcomingPerformances.length}</p>
+        </div>
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="flex items-center">
+            <Star className="w-6 h-6 mr-2 text-yellow-500" />
+            <span className="text-lg font-semibold">Average Rating</span>
+          </div>
+          <p className="text-2xl font-bold mt-2">{isNaN(averageRating) ? 'N/A' : averageRating.toFixed(1)}/5</p>
+        </div>
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="flex items-center">
+            <DollarSign className="w-6 h-6 mr-2 text-green-500" />
+            <span className="text-lg font-semibold">Total Earnings</span>
+          </div>
+          <p className="text-2xl font-bold mt-2">${totalEarnings.toFixed(2)}</p>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Upcoming Performances */}
-        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
+        <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
             <Calendar className="w-5 h-5 mr-2" />
             Upcoming Performances
@@ -108,7 +137,7 @@ const DashboardContent = () => {
         </div>
 
         {/* Recent Earnings */}
-        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
+        <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
             <DollarSign className="w-5 h-5 mr-2" />
             Recent Earnings
@@ -130,7 +159,7 @@ const DashboardContent = () => {
         </div>
 
         {/* Availability Slots */}
-        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
+        <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
             <Clock className="w-5 h-5 mr-2" />
             Availability Slots
@@ -152,7 +181,7 @@ const DashboardContent = () => {
         </div>
 
         {/* Performance Ratings */}
-        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
+        <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
             <Star className="w-5 h-5 mr-2" />
             Performance Ratings
@@ -170,21 +199,21 @@ const DashboardContent = () => {
             <p className="text-gray-600">No performance ratings.</p>
           )}
         </div>
-
-        {/* Subscription Status */}
-        {subscriptionStatus && (
-          <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
-            <h2 className="text-xl font-semibold mb-4 flex items-center">
-              <CheckCircle className="w-5 h-5 mr-2" />
-              Subscription Status
-            </h2>
-            <p className="text-lg font-semibold">{subscriptionStatus.plan_type}</p>
-            <p className="text-sm text-gray-600">
-              Renews on: {new Date(subscriptionStatus.current_period_end).toLocaleDateString()}
-            </p>
-          </div>
-        )}
       </div>
+
+      {/* Subscription Status */}
+      {subscriptionStatus && (
+        <div className="bg-white rounded-lg shadow-lg p-6 mt-6">
+          <h2 className="text-xl font-semibold mb-4 flex items-center">
+            <CheckCircle className="w-5 h-5 mr-2" />
+            Subscription Status
+          </h2>
+          <p className="text-lg font-semibold">{subscriptionStatus.plan_type}</p>
+          <p className="text-sm text-gray-600">
+            Renews on: {new Date(subscriptionStatus.current_period_end).toLocaleDateString()}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
