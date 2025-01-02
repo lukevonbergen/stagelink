@@ -11,6 +11,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 // Set up the localizer for moment
 const localizer = momentLocalizer(moment);
 
+// Define time options for the time selector
+const timeOptions = [];
+for (let hour = 0; hour < 24; hour++) {
+  for (let minute = 0; minute < 60; minute += 30) {
+    const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+    timeOptions.push(time);
+  }
+}
+
 // Define the PerformancesContent component
 const PerformancesContent = () => {
   const [performances, setPerformances] = useState([]);
