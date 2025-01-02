@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import PerformerDashboard from './Dashboard';
+import PerformerFrame from './PerformerFrame';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { LineChart, Line } from 'recharts';
 
@@ -174,9 +174,9 @@ const AnalyticsContent = () => {
 
 // Wrap with PerformerDashboard
 const Analytics = () => (
-  <PerformerDashboard>
+  <PerformerFrame>
     <AnalyticsContent />
-  </PerformerDashboard>
+  </PerformerFrame>
 );
 
 export default Analytics;

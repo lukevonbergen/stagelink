@@ -3,7 +3,7 @@ import { Calendar, Clock, DollarSign, Plus, Trash2, CheckCircle } from 'lucide-r
 import { format, addWeeks, setDay } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
-import PerformerDashboard from './Dashboard';
+import PerformerFrame from './PerformerFrame';
 import { supabase } from '../../lib/supabase';
 
 const AvailabilityContent = () => {
@@ -444,9 +444,9 @@ const AvailabilityContent = () => {
 
 // Wrap with PerformerDashboard
 const Availability = () => (
-  <PerformerDashboard>
+  <PerformerFrame>
     <AvailabilityContent />
-  </PerformerDashboard>
+  </PerformerFrame>
 );
 
 export default Availability;

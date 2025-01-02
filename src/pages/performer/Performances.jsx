@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import PerformerDashboard from './Dashboard';
+import PerformerFrame from './PerformerFrame';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -323,11 +323,9 @@ const PerformancesContent = () => {
   );
 };
 
-// Wrap with PerformerDashboard
 const Performances = () => (
-  <PerformerDashboard>
-    <PerformancesContent />
-  </PerformerDashboard>
+  <PerformerFrame>
+    <ProfileContent />
+  </PerformerFrame>
 );
-
 export default Performances;

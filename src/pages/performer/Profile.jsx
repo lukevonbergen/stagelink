@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import PerformerDashboard from './Dashboard';
+import PerformerFrame from './PerformerFrame';
 
 const ProfileContent = () => {
   const [profile, setProfile] = useState({
@@ -153,11 +153,10 @@ const ProfileContent = () => {
   );
 };
 
-// Wrap with PerformerDashboard
 const Profile = () => (
-  <PerformerDashboard>
+  <PerformerFrame>
     <ProfileContent />
-  </PerformerDashboard>
+  </PerformerFrame>
 );
 
 export default Profile;
