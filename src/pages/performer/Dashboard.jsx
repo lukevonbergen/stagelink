@@ -20,7 +20,7 @@ const DashboardContent = () => {
           // Fetch upcoming performances
           const { data: performancesData } = await supabase
             .from('performances')
-            .select('*')
+            .select('*, venues (name)') // Join the venues table and select the venue name
             .eq('performer_id', user.id)
             .eq('status', 'confirmed')
             .order('date', { ascending: true });
@@ -134,7 +134,9 @@ const DashboardContent = () => {
                     </div>
                     <div className="flex items-center mb-2">
                       <MapPin className="w-4 h-4 mr-2 text-red-500" />
-                      <p className="text-sm text-gray-600">{performance.venue_name}</p>
+                      <p className="text-sm text-gray-600">
+                        {performance.venues?.name || "Venue not specified"}
+                      </p>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle className="w-4 h-4 mr-2 text-purple-500" />
