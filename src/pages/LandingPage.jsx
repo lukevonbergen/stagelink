@@ -4,6 +4,9 @@ import {
   faCalendarAlt,
   faChartLine,
   faComments,
+  faCheckCircle,
+  faUsers,
+  faLightbulb,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-scroll';
 
@@ -11,7 +14,7 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-50 to-purple-50">
+      <section className="py-32 bg-gradient-to-r from-blue-50 to-purple-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             Streamline Your Live Performances
@@ -35,9 +38,9 @@ const LandingPage = () => {
               View Pricing
             </a>
           </div>
-          <div className="mt-12">
+          <div className="mt-16">
             <img
-              src="https://via.placeholder.com/800x400" // Replace with your hero image
+              src="https://via.placeholder.com/1000x500" // Replace with your hero image
               alt="Hero"
               className="rounded-lg shadow-lg mx-auto"
             />
@@ -46,7 +49,7 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-white">
+      <section id="features" className="py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -56,7 +59,7 @@ const LandingPage = () => {
               Everything you need to manage live performances seamlessly.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Feature 1 */}
             <div className="bg-white p-8 rounded-lg shadow-sm text-center border border-gray-100">
               <div className="text-blue-600 mb-6">
@@ -99,8 +102,62 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Benefits Section */}
+      <section className="py-24 bg-gradient-to-r from-blue-50 to-purple-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Why Choose Stagelink?
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Discover the benefits of using Stagelink for your live performance needs.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {/* Benefit 1 */}
+            <div className="bg-white p-8 rounded-lg shadow-sm text-center border border-gray-100">
+              <div className="text-blue-600 mb-6">
+                <FontAwesomeIcon icon={faCheckCircle} size="3x" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Easy to Use
+              </h3>
+              <p className="text-gray-600">
+                Intuitive interface designed for both venues and performers.
+              </p>
+            </div>
+
+            {/* Benefit 2 */}
+            <div className="bg-white p-8 rounded-lg shadow-sm text-center border border-gray-100">
+              <div className="text-blue-600 mb-6">
+                <FontAwesomeIcon icon={faUsers} size="3x" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Community Driven
+              </h3>
+              <p className="text-gray-600">
+                Join a growing community of venues and performers.
+              </p>
+            </div>
+
+            {/* Benefit 3 */}
+            <div className="bg-white p-8 rounded-lg shadow-sm text-center border border-gray-100">
+              <div className="text-blue-600 mb-6">
+                <FontAwesomeIcon icon={faLightbulb} size="3x" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Innovative Solutions
+              </h3>
+              <p className="text-gray-600">
+                Cutting-edge tools to enhance your live performance experience.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-50 to-purple-50">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -110,7 +167,7 @@ const LandingPage = () => {
               Hear from venues and performers who have transformed their booking process with Stagelink.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Testimonial 1 */}
             <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
               <p className="text-gray-600 mb-6">
@@ -151,7 +208,7 @@ const LandingPage = () => {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-white">
+      <section id="pricing" className="py-24 bg-gradient-to-r from-blue-50 to-purple-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -161,7 +218,7 @@ const LandingPage = () => {
               Affordable plans for venues and performers of all sizes.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
             {/* Plan 1 */}
             <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 text-center">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
