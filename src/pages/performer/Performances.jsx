@@ -189,7 +189,7 @@ const PerformancesContent = () => {
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: '100%' }}
+          style={{ height: '600px' }} // Fixed height for the calendar
           defaultView="week"
           views={['week']}
           min={new Date(0, 0, 0, 0, 0, 0)} // Start at midnight
@@ -198,6 +198,16 @@ const PerformancesContent = () => {
           timeslots={2} // Two timeslots per hour
           defaultDate={new Date()}
           onSelectEvent={handleEventClick}
+          eventPropGetter={(event) => ({
+            style: {
+              backgroundColor: event.type === 'performance' ? '#3b82f6' : '#10b981',
+              color: '#fff',
+              borderRadius: '4px',
+              border: 'none',
+              padding: '2px 4px',
+              fontSize: '12px',
+            },
+          })}
         />
       </div>
 
