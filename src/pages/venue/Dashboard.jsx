@@ -15,22 +15,20 @@ const DashboardContent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        if (authError) throw authError;
-        console.log('User:', user);
-
+        const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          // Fetch the next performance from performer_availability
+          // Fetch the next performance from the performances table
           const { data: nextPerformanceData, error: nextPerformanceError } = await supabase
-            .from('performer_availability')
+            .from('performances')
             .select('*')
+            .eq('venue_id', user.id) // Filter by the current venue's ID
+            .in('status', ['confirmed', 'pending']) // Only include confirmed or pending performances
             .order('date', { ascending: true })
             .limit(1);
 
           if (nextPerformanceError) throw nextPerformanceError;
-          console.log('Next Performance Data:', nextPerformanceData);
 
-          // Fetch the last 15 performers' ratings
+          // Fetch the last 15 performers' ratings (assuming ratings are stored in a separate table)
           const { data: ratingsData, error: ratingsError } = await supabase
             .from('ratings')
             .select('overall_rating')
@@ -38,23 +36,23 @@ const DashboardContent = () => {
             .limit(15);
 
           if (ratingsError) throw ratingsError;
-          console.log('Ratings Data:', ratingsData);
 
           // Calculate the average rating
           const totalRating = ratingsData.reduce((sum, rating) => sum + rating.overall_rating, 0);
           const avgRating = ratingsData.length > 0 ? totalRating / ratingsData.length : 0;
 
-          // Fetch all upcoming performances from performer_availability
+          // Fetch all upcoming performances from the performances table
           const { data: upcomingEventsData, error: upcomingEventsError } = await supabase
-            .from('performer_availability')
+            .from('performances')
             .select('*')
+            .eq('venue_id', user.id) // Filter by the current venue's ID
+            .in('status', ['confirmed', 'pending']) // Only include confirmed or pending performances
             .order('date', { ascending: true });
 
           if (upcomingEventsError) throw upcomingEventsError;
-          console.log('Upcoming Events Data:', upcomingEventsData);
 
           // Calculate the total cost
-          const totalCost = upcomingEventsData.reduce((sum, event) => sum + event.rate_per_hour, 0);
+          const totalCost = upcomingEventsData.reduce((sum, event) => sum + event.booking_rate, 0);
 
           // Filter out today's events
           const today = new Date().toISOString().split('T')[0];
@@ -66,7 +64,6 @@ const DashboardContent = () => {
           setUpcomingEvents(filteredEvents);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
         setError(error.message);
       } finally {
         setLoading(false);
@@ -136,7 +133,7 @@ const DashboardContent = () => {
                 <p className="text-sm text-gray-600">
                   {new Date(event.date).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' })} | {event.start_time} - {event.end_time}
                 </p>
-                <p className="text-sm text-gray-600">£{event.rate_per_hour}/hour</p>
+                <p className="text-sm text-gray-600">£{event.booking_rate}/hour</p>
               </div>
             ))}
           </div>
