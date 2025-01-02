@@ -69,7 +69,7 @@ const PerformerFrame = ({ children }) => {
       <div>
         {/* Top Strip Bar */}
         <div className="w-full bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-200 py-3 px-6 text-sm text-gray-700 shadow-sm fixed top-0 z-50">
-          <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="max-w-7xl mx-auto flex justify-center items-center">
             <span>
               You are logged in as <strong>{stageName}</strong>: <strong>{performerId}</strong>
             </span>
@@ -78,33 +78,39 @@ const PerformerFrame = ({ children }) => {
 
         {/* Horizontal Navigation Bar */}
         <div className="w-full bg-white border-b border-gray-200 py-3 px-6 shadow-sm fixed top-12 z-40">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <img
-                className="h-8 w-auto"
-                src={logo} // Use the imported logo
-                alt="StageLink Logo"
-              />
-            </div>
+          <div className="flex items-center justify-between">
+            {/* Logo and Navigation Links */}
+            <div className="flex items-center space-x-8">
+              {/* Logo */}
+              <div className="flex-shrink-0">
+                <img
+                  className="h-8 w-auto"
+                  src={logo} // Use the imported logo
+                  alt="StageLink Logo"
+                />
+              </div>
 
-            {/* Navigation Links */}
-            <nav className="flex space-x-6">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`group flex items-center space-x-2 text-sm font-medium ${
-                    location.pathname === item.href
-                      ? 'text-gray-900'
-                      : 'text-gray-500 hover:text-gray-900'
-                  }`}
-                >
-                  <item.icon className="h-5 w-5" aria-hidden="true" />
-                  <span>{item.name}</span>
-                </Link>
-              ))}
-            </nav>
+              {/* Navigation Links */}
+              <nav className="flex space-x-6">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`group flex items-center space-x-2 text-sm font-medium relative ${
+                      location.pathname === item.href
+                        ? 'text-gray-900'
+                        : 'text-gray-500 hover:text-gray-900'
+                    }`}
+                  >
+                    <item.icon className="h-5 w-5" aria-hidden="true" />
+                    <span>{item.name}</span>
+                    {location.pathname === item.href && (
+                      <div className="absolute bottom-[-12px] left-0 w-full h-0.5 bg-black" />
+                    )}
+                  </Link>
+                ))}
+              </nav>
+            </div>
 
             {/* Settings Dropdown */}
             <Menu as="div" className="relative">
@@ -121,6 +127,8 @@ const PerformerFrame = ({ children }) => {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  {/* Arrow */}
+                  <div className="absolute -top-2 right-2 w-4 h-4 bg-white transform rotate-45 border-t border-l border-gray-200" />
                   <div className="py-1">
                     <Menu.Item>
                       {({ active }) => (
