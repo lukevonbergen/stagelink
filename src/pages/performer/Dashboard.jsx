@@ -17,15 +17,14 @@ const DashboardContent = () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          // Fetch upcoming performances
+          // Fetch upcoming performances with venue details
           const { data: performancesData } = await supabase
             .from('performances')
-            .select('*, venues (name)') // Join the venues table to get the venue name
+            .select('*, venues (venue_name, address_line1, city, postcode)') // Join venues table
             .eq('performer_id', user.id)
             .eq('status', 'confirmed')
             .order('date', { ascending: true });
 
-          console.log(performancesData); // Debugging: Log the data
           setUpcomingPerformances(performancesData || []);
 
           // Fetch availability slots
@@ -136,7 +135,7 @@ const DashboardContent = () => {
                     <div className="flex items-center mb-2">
                       <MapPin className="w-4 h-4 mr-2 text-red-500" />
                       <p className="text-sm text-gray-600">
-                        {performance.venues?.name || "Venue not specified"}
+                        {performance.venues?.venue_name || "Venue not specified"}
                       </p>
                     </div>
                     <div className="flex items-center">
