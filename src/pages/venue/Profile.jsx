@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import VenueFrame from './VenueFrame';
+import QRCode from 'qrcode.react';
 
 const ProfileContent = () => {
   const [profile, setProfile] = useState({
@@ -12,6 +13,7 @@ const ProfileContent = () => {
     postcode: '',
     email: '',
   });
+  const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,14 +22,19 @@ const ProfileContent = () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
+          // Fetch venue profile
           const { data, error } = await supabase
             .from('venues')
             .select('*')
-            .eq('id', user.id) // Use the correct column name here
+            .eq('id', user.id)
             .single();
 
           if (error) throw error;
           if (data) setProfile(data);
+
+          // Generate QR code URL
+          const ratingUrl = `${window.location.origin}/rate/venue/${user.id}`;
+          setQrCodeUrl(ratingUrl);
         }
       } catch (error) {
         setError(error.message);
@@ -54,7 +61,7 @@ const ProfileContent = () => {
         const { error } = await supabase
           .from('venues')
           .update(profile)
-          .eq('id', user.id); // Use the correct column name here
+          .eq('id', user.id);
 
         if (error) throw error;
         alert('Profile updated successfully!');
@@ -72,6 +79,7 @@ const ProfileContent = () => {
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Edit Profile</h1>
       <div className="bg-white rounded-lg shadow-lg p-8">
         <div className="space-y-6">
+          {/* Profile Fields */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Venue Name</label>
             <input
@@ -149,6 +157,21 @@ const ProfileContent = () => {
               placeholder="Enter email"
             />
           </div>
+
+          {/* QR Code Section */}
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-4">QR Code for Customer Ratings</h2>
+            {qrCodeUrl ? (
+              <div className="flex flex-col items-center">
+                <QRCode value={qrCodeUrl} size={256} />
+                <p className="mt-4 text-sm text-gray-600">Scan this QR code to rate performances at this venue.</p>
+              </div>
+            ) : (
+              <p className="text-gray-600">Generating QR code...</p>
+            )}
+          </div>
+
+          {/* Save Button */}
           <div className="flex justify-end">
             <button
               onClick={handleSaveProfile}
