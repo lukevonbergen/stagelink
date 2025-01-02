@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faChartLine, faComments, faCheckCircle, faLink } from '@fortawesome/free-solid-svg-icons';
+import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-scroll';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -16,39 +16,30 @@ const LandingPage = () => {
     <div>
       {/* Hero Section */}
       <section className="hero is-fullheight is-light">
-        <div className="hero-head">
-          <nav className="navbar">
-            <div className="container">
-              <div className="navbar-brand">
-                <a className="navbar-item" href="/">
-                  <span className="icon-text">
-                    <span className="icon">
-                      <FontAwesomeIcon icon={faLink} />
-                    </span>
-                    <span className="title is-4 has-text-weight-bold">Stagelink</span>
+        {/* Single Navbar */}
+        <nav className="navbar">
+          <div className="container">
+            <div className="navbar-brand">
+              <a className="navbar-item" href="/">
+                <span className="icon-text">
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faLink} />
                   </span>
+                  <span className="title is-4 has-text-weight-bold">Stagelink</span>
+                </span>
+              </a>
+            </div>
+            <div className="navbar-menu">
+              <div className="navbar-end">
+                <a className="navbar-item button is-primary" href="/login">
+                  Login
                 </a>
               </div>
-              <div className="navbar-menu">
-                <div className="navbar-end">
-                  <Link to="features" smooth={true} duration={500} className="navbar-item">
-                    Features
-                  </Link>
-                  <Link to="pricing" smooth={true} duration={500} className="navbar-item">
-                    Pricing
-                  </Link>
-                  <Link to="contact" smooth={true} duration={500} className="navbar-item">
-                    Contact
-                  </Link>
-                  <a className="navbar-item button is-primary" href="/signup">
-                    Get Started
-                  </a>
-                </div>
-              </div>
             </div>
-          </nav>
-        </div>
+          </div>
+        </nav>
 
+        {/* Hero Body */}
         <div className="hero-body">
           <div className="container has-text-centered">
             <motion.h1
@@ -68,36 +59,9 @@ const LandingPage = () => {
               Stagelink connects venues and performers, making booking and management effortless.
             </motion.h2>
             <div className="buttons is-centered">
-              <a href="/signup" className="button is-primary is-large">
-                Get Started
-              </a>
-              <Link to="features" smooth={true} duration={500} className="button is-light is-large">
+              <Link to="features" smooth={true} duration={500} className="button is-primary is-large">
                 Learn More
               </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="hero-foot">
-          <div className="container">
-            <div className="tabs is-centered">
-              <ul>
-                <li>
-                  <Link to="features" smooth={true} duration={500}>
-                    Features
-                  </Link>
-                </li>
-                <li>
-                  <Link to="pricing" smooth={true} duration={500}>
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link to="contact" smooth={true} duration={500}>
-                    Contact
-                  </Link>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
@@ -178,7 +142,7 @@ const LandingPage = () => {
                   <li>Basic analytics</li>
                   <li>Email support</li>
                 </ul>
-                <a href="/signup" className="button is-primary is-fullwidth">
+                <a href="/login" className="button is-primary is-fullwidth">
                   Get Started
                 </a>
               </div>
@@ -193,7 +157,7 @@ const LandingPage = () => {
                   <li>Advanced analytics</li>
                   <li>Priority support</li>
                 </ul>
-                <a href="/signup" className="button is-primary is-fullwidth">
+                <a href="/login" className="button is-primary is-fullwidth">
                   Get Started
                 </a>
               </div>
