@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink } from '@fortawesome/free-solid-svg-icons';
+import {
+  faLink,         // For the Stagelink logo
+  faCalendarAlt,  // For the "Easy Booking" feature
+  faChartLine,    // For the "Analytics" feature
+  faComments,     // For the "Communication" feature
+} from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-scroll';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
