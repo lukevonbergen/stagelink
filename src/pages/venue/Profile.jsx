@@ -5,8 +5,12 @@ import VenueFrame from './VenueFrame';
 const ProfileContent = () => {
   const [profile, setProfile] = useState({
     venue_name: '',
-    address: '',
-    contact_email: '',
+    address_line1: '',
+    address_line2: '',
+    city: '',
+    county: '',
+    postcode: '',
+    email: '',
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,7 +23,7 @@ const ProfileContent = () => {
           const { data, error } = await supabase
             .from('venues')
             .select('*')
-            .eq('user_id', user.id)
+            .eq('id', user.id) // Use the correct column name here
             .single();
 
           if (error) throw error;
@@ -50,7 +54,7 @@ const ProfileContent = () => {
         const { error } = await supabase
           .from('venues')
           .update(profile)
-          .eq('user_id', user.id);
+          .eq('id', user.id); // Use the correct column name here
 
         if (error) throw error;
         alert('Profile updated successfully!');
@@ -80,25 +84,69 @@ const ProfileContent = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Address Line 1</label>
             <input
               type="text"
-              name="address"
-              value={profile.address || ''}
+              name="address_line1"
+              value={profile.address_line1 || ''}
               onChange={handleInputChange}
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter address"
+              placeholder="Enter address line 1"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Address Line 2</label>
             <input
-              type="email"
-              name="contact_email"
-              value={profile.contact_email || ''}
+              type="text"
+              name="address_line2"
+              value={profile.address_line2 || ''}
               onChange={handleInputChange}
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter contact email"
+              placeholder="Enter address line 2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+            <input
+              type="text"
+              name="city"
+              value={profile.city || ''}
+              onChange={handleInputChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter city"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">County</label>
+            <input
+              type="text"
+              name="county"
+              value={profile.county || ''}
+              onChange={handleInputChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter county"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Postcode</label>
+            <input
+              type="text"
+              name="postcode"
+              value={profile.postcode || ''}
+              onChange={handleInputChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter postcode"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={profile.email || ''}
+              onChange={handleInputChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter email"
             />
           </div>
           <div className="flex justify-end">
