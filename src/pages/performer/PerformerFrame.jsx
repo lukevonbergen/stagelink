@@ -65,7 +65,7 @@ const PerformerFrame = ({ children }) => {
     <>
       <div>
         {/* Top Strip Bar */}
-        <div className="w-full bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-200 py-3 px-6 text-sm text-gray-700 shadow-sm fixed top-0 z-50">
+        <div className="w-full bg-gradient-to-r from-blue-100 to-purple-50 border-b border-gray-200 py-3 px-6 text-sm text-gray-700 shadow-sm fixed top-0 z-50">
             <div className="max-w-7xl mx-auto flex justify-between items-center">
                 <span>
                 You are logged in as <strong>{stageName}</strong>: <strong>{performerId}</strong>
