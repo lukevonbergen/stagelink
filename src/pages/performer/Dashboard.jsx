@@ -20,7 +20,7 @@ const DashboardContent = () => {
           // Fetch upcoming performances
           const { data: performancesData } = await supabase
             .from('performances')
-            .select('*')
+            .select('*, venues (name)') // Join venues table to get venue name
             .eq('performer_id', user.id)
             .eq('status', 'confirmed')
             .order('date', { ascending: true });
@@ -89,28 +89,28 @@ const DashboardContent = () => {
 
       {/* Key Metrics Bar */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg shadow-md p-6">
           <div className="flex items-center">
             <Calendar className="w-6 h-6 mr-2 text-blue-500" />
-            <span className="text-lg font-semibold">Upcoming Performances</span>
+            <span className="text-lg font-semibold text-gray-700">Upcoming Performances</span>
           </div>
-          <p className="text-2xl font-bold mt-2">{upcomingPerformances.length}</p>
+          <p className="text-2xl font-bold mt-2 text-gray-800">{upcomingPerformances.length}</p>
         </div>
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg shadow-md p-6">
           <div className="flex items-center">
             <Star className="w-6 h-6 mr-2 text-yellow-500" />
-            <span className="text-lg font-semibold">Average Rating</span>
+            <span className="text-lg font-semibold text-gray-700">Average Rating</span>
           </div>
-          <p className="text-2xl font-bold mt-2">{isNaN(averageRating) ? 'N/A' : averageRating.toFixed(1)}/5</p>
+          <p className="text-2xl font-bold mt-2 text-gray-800">{isNaN(averageRating) ? 'N/A' : averageRating.toFixed(1)}/5</p>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Upcoming Performances */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4 flex items-center">
-            <Calendar className="w-5 h-5 mr-2" />
+        <div className="bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-semibold mb-4 flex items-center text-gray-700">
+            <Calendar className="w-5 h-5 mr-2 text-blue-500" />
             Upcoming Performances
           </h2>
           {upcomingPerformances.length > 0 ? (
@@ -121,10 +121,10 @@ const DashboardContent = () => {
                 const totalHours = (endTime - startTime) / (1000 * 60 * 60);
 
                 return (
-                  <div key={performance.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                  <div key={performance.id} className="bg-white border border-gray-100 rounded-lg p-4 hover:shadow-lg transition-shadow duration-200">
                     <div className="flex items-center mb-2">
                       <Calendar className="w-4 h-4 mr-2 text-blue-500" />
-                      <p className="text-lg font-semibold">{formatDate(performance.date)}</p>
+                      <p className="text-lg font-semibold text-gray-800">{formatDate(performance.date)}</p>
                     </div>
                     <div className="flex items-center mb-2">
                       <Clock className="w-4 h-4 mr-2 text-green-500" />
@@ -134,7 +134,7 @@ const DashboardContent = () => {
                     </div>
                     <div className="flex items-center mb-2">
                       <MapPin className="w-4 h-4 mr-2 text-red-500" />
-                      <p className="text-sm text-gray-600">{performance.venue_name}</p>
+                      <p className="text-sm text-gray-600">{performance.venues?.name || "Venue not specified"}</p>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle className="w-4 h-4 mr-2 text-purple-500" />
@@ -150,9 +150,9 @@ const DashboardContent = () => {
         </div>
 
         {/* Availability Slots */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4 flex items-center">
-            <Clock className="w-5 h-5 mr-2" />
+        <div className="bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-semibold mb-4 flex items-center text-gray-700">
+            <Clock className="w-5 h-5 mr-2 text-green-500" />
             Availability Slots
           </h2>
           {availabilitySlots.length > 0 ? (
@@ -164,10 +164,10 @@ const DashboardContent = () => {
                 const totalCost = slot.rate_per_hour * totalHours;
 
                 return (
-                  <div key={slot.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                  <div key={slot.id} className="bg-white border border-gray-100 rounded-lg p-4 hover:shadow-lg transition-shadow duration-200">
                     <div className="flex items-center mb-2">
                       <Calendar className="w-4 h-4 mr-2 text-blue-500" />
-                      <p className="text-lg font-semibold">{formatDate(slot.date)}</p>
+                      <p className="text-lg font-semibold text-gray-800">{formatDate(slot.date)}</p>
                     </div>
                     <div className="flex items-center mb-2">
                       <Clock className="w-4 h-4 mr-2 text-green-500" />
@@ -193,16 +193,16 @@ const DashboardContent = () => {
         </div>
 
         {/* Performance Ratings */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4 flex items-center">
-            <Star className="w-5 h-5 mr-2" />
+        <div className="bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-semibold mb-4 flex items-center text-gray-700">
+            <Star className="w-5 h-5 mr-2 text-yellow-500" />
             Performance Ratings
           </h2>
           {performanceRatings.length > 0 ? (
             <div className="space-y-3">
               {performanceRatings.map((rating) => (
-                <div key={rating.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                  <p className="text-lg font-semibold">{rating.overall_rating}/5</p>
+                <div key={rating.id} className="bg-white border border-gray-100 rounded-lg p-4 hover:shadow-lg transition-shadow duration-200">
+                  <p className="text-lg font-semibold text-gray-800">{rating.overall_rating}/5</p>
                   <p className="text-sm text-gray-600">{rating.comment}</p>
                 </div>
               ))}
@@ -215,12 +215,12 @@ const DashboardContent = () => {
 
       {/* Subscription Status */}
       {subscriptionStatus && (
-        <div className="bg-white rounded-lg shadow-lg p-6 mt-6">
-          <h2 className="text-xl font-semibold mb-4 flex items-center">
-            <CheckCircle className="w-5 h-5 mr-2" />
+        <div className="bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-md p-6 mt-6">
+          <h2 className="text-lg font-semibold mb-4 flex items-center text-gray-700">
+            <CheckCircle className="w-5 h-5 mr-2 text-purple-500" />
             Subscription Status
           </h2>
-          <p className="text-lg font-semibold">{subscriptionStatus.plan_type}</p>
+          <p className="text-lg font-semibold text-gray-800">{subscriptionStatus.plan_type}</p>
           <p className="text-sm text-gray-600">
             Renews on: {new Date(subscriptionStatus.current_period_end).toLocaleDateString('en-GB')}
           </p>
