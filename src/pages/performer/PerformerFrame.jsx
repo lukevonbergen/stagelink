@@ -63,8 +63,8 @@ const PerformerFrame = ({ children }) => {
     <>
       <div>
         {/* Strip Bar */}
-        <div className="bg-blue-600 text-white text-sm py-2 text-center">
-          You are logged in as <strong>{stageName}</strong>: <code>{performerId}</code>
+        <div className="w-full bg-white border-b border-gray-200 py-2 text-center text-sm text-gray-700">
+          You are logged in as <strong>{stageName}</strong>: {performerId}
         </div>
 
         {/* Mobile Sidebar */}
@@ -129,9 +129,9 @@ const PerformerFrame = ({ children }) => {
 
         {/* Desktop Sidebar */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-base-200 bg-base-100 px-6 pb-4">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              <span className="text-2xl font-bold text-primary">StageLink</span>
+              <span className="text-2xl font-bold text-gray-900">StageLink</span>
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -143,8 +143,8 @@ const PerformerFrame = ({ children }) => {
                           to={item.href}
                           className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${
                             location.pathname === item.href
-                              ? 'bg-base-200 text-primary'
-                              : 'text-base-content hover:bg-base-200 hover:text-primary'
+                              ? 'bg-gray-100 text-gray-900'
+                              : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                           }`}
                         >
                           <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
@@ -157,7 +157,7 @@ const PerformerFrame = ({ children }) => {
                 <li className="mt-auto">
                   <button
                     onClick={handleLogout}
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-error hover:bg-base-200"
+                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-100"
                   >
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     Logout
@@ -170,17 +170,17 @@ const PerformerFrame = ({ children }) => {
 
         {/* Main Content */}
         <div className="lg:pl-72">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-base-200 bg-base-100 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             <button
               type="button"
-              className="-m-2.5 p-2.5 text-base-content lg:hidden"
+              className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </button>
 
-            <div className="h-6 w-px bg-base-200 lg:hidden" aria-hidden="true" />
+            <div className="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
 
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
               <div className="flex flex-1"></div>
@@ -188,7 +188,7 @@ const PerformerFrame = ({ children }) => {
                 <Menu as="div" className="relative">
                   <Menu.Button className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
-                    <UserCircleIcon className="h-8 w-8 text-base-content" aria-hidden="true" />
+                    <UserCircleIcon className="h-8 w-8 text-gray-700" aria-hidden="true" />
                   </Menu.Button>
                   <Transition
                     as={Fragment}
@@ -199,14 +199,14 @@ const PerformerFrame = ({ children }) => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-base-100 py-2 shadow-lg ring-1 ring-base-200 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-200 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
                           <button
                             onClick={handleLogout}
                             className={`${
-                              active ? 'bg-base-200' : ''
-                            } block px-3 py-1 text-sm leading-6 text-base-content w-full text-left`}
+                              active ? 'bg-gray-100' : ''
+                            } block px-3 py-1 text-sm leading-6 text-gray-700 w-full text-left`}
                           >
                             Sign out
                           </button>
