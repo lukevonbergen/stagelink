@@ -13,10 +13,15 @@ const ConfirmPerformancesContent = () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          // Fetch performances with status 'pending' for the performer
+          // Fetch performances with status 'pending' for the performer, including venue_name
           const { data, error } = await supabase
             .from('performances')
-            .select('*')
+            .select(`
+              *,
+              venues:venue_id (
+                venue_name
+              )
+            `)
             .eq('performer_id', user.id) // Filter by the performer's ID
             .eq('status', 'pending'); // Only include pending performances
 
@@ -81,7 +86,7 @@ const ConfirmPerformancesContent = () => {
             <div key={performance.id} className="bg-white rounded-lg shadow-lg p-6">
               <p className="text-lg font-bold">Performance on {new Date(performance.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
               <p className="text-sm text-gray-600">Time: {performance.start_time} - {performance.end_time}</p>
-              <p className="text-sm text-gray-600">Venue: {performance.venue_name}</p>
+              <p className="text-sm text-gray-600">Venue: {performance.venues?.venue_name}</p>
               <p className="text-sm text-gray-600">Earnings: £{performance.booking_rate}</p>
               <div className="flex space-x-4 mt-4">
                 <button
