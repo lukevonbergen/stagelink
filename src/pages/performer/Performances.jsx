@@ -55,7 +55,7 @@ const PerformancesContent = () => {
               booking_rate,
               created_at,
               date,
-              venues:venue_id ( venue_name, address )
+              venues:venue_id ( venue_name, address_line1, address_line2, city, county, postcode )
             `)
             .eq('performer_id', user.id)
             .in('status', ['confirmed', 'past'])
@@ -327,13 +327,25 @@ const PerformancesContent = () => {
                   Address
                 </span>
               </label>
-              <p className="text-lg font-semibold">{selectedPerformance.venue.address}</p>
+              <p className="text-lg font-semibold">
+                {selectedPerformance.venue.address_line1}<br />
+                {selectedPerformance.venue.address_line2 && (
+                  <>
+                    {selectedPerformance.venue.address_line2}<br />
+                  </>
+                )}
+                {selectedPerformance.venue.city}<br />
+                {selectedPerformance.venue.county}<br />
+                {selectedPerformance.venue.postcode}
+              </p>
             </div>
 
             {/* Get Directions Button */}
             <button
               onClick={() => {
-                const address = encodeURIComponent(selectedPerformance.venue.address);
+                const address = encodeURIComponent(
+                  `${selectedPerformance.venue.address_line1}, ${selectedPerformance.venue.city}, ${selectedPerformance.venue.postcode}`
+                );
                 window.open(`https://www.google.com/maps/dir/?api=1&destination=${address}`, '_blank');
               }}
               className="btn btn-primary w-full"
