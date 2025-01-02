@@ -12,6 +12,7 @@ import Availability from './pages/performer/Availability';
 import Profile from './pages/performer/Profile';
 import Performances from './pages/performer/Performances';
 import Analytics from './pages/performer/Analytics';
+import Activity from './pages/performer/Activity';
 import BookPerformers from './pages/venue/Book'; // Add BookPerformers
 import Spending from './pages/venue/Spending'; // Add Spending
 import Reports from './pages/venue/Reports'; // Add Reports
@@ -46,6 +47,7 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/performances" element={<Performances />} />
               <Route path="/analytics" element={<Analytics />} />
+              <Route path="/activity" element={<Activity />} />
             </Routes>
           </ProtectedRoute>
         } />

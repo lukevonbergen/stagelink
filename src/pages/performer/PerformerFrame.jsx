@@ -22,7 +22,7 @@ const navigation = [
   { name: 'Dashboard', href: '/performer/dashboard', icon: CubeIcon },
   { name: 'Availability', href: '/performer/availability', icon: CalendarDaysIcon },
   { name: 'Performances', href: '/performer/performances', icon: MusicalNoteIcon },
-  { name: 'Earnings', href: '/performer/earnings', icon: BanknotesIcon },
+  { name: 'Activity', href: '/performer/activity', icon: BanknotesIcon },
   { name: 'Analytics', href: '/performer/analytics', icon: ChartBarIcon },
 ];
 
