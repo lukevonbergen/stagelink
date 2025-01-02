@@ -17,22 +17,20 @@ const DashboardContent = () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          // Fetch the next confirmed performance
+          // Fetch the next confirmed performance from performer_availability
           const { data: nextPerformanceData, error: nextPerformanceError } = await supabase
-            .from('performances')
+            .from('performer_availability')
             .select('*')
-            .eq('venue_id', user.id)
             .eq('status', 'confirmed')
             .order('date', { ascending: true })
             .limit(1);
 
           if (nextPerformanceError) throw nextPerformanceError;
 
-          // Fetch the last 15 performers' ratings
+          // Fetch the last 15 performers' ratings (assuming ratings are stored in a separate table)
           const { data: ratingsData, error: ratingsError } = await supabase
             .from('ratings')
             .select('overall_rating')
-            .eq('venue_id', user.id)
             .order('created_at', { ascending: false })
             .limit(15);
 
@@ -42,18 +40,17 @@ const DashboardContent = () => {
           const totalRating = ratingsData.reduce((sum, rating) => sum + rating.overall_rating, 0);
           const avgRating = ratingsData.length > 0 ? totalRating / ratingsData.length : 0;
 
-          // Fetch all upcoming confirmed performances
+          // Fetch all upcoming confirmed performances from performer_availability
           const { data: upcomingEventsData, error: upcomingEventsError } = await supabase
-            .from('performances')
+            .from('performer_availability')
             .select('*')
-            .eq('venue_id', user.id)
             .eq('status', 'confirmed')
             .order('date', { ascending: true });
 
           if (upcomingEventsError) throw upcomingEventsError;
 
           // Calculate the total confirmed cost
-          const totalCost = upcomingEventsData.reduce((sum, event) => sum + event.booking_rate, 0);
+          const totalCost = upcomingEventsData.reduce((sum, event) => sum + event.rate_per_hour, 0);
 
           // Filter out today's events
           const today = new Date().toISOString().split('T')[0];
@@ -134,7 +131,7 @@ const DashboardContent = () => {
                 <p className="text-sm text-gray-600">
                   {new Date(event.date).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' })} | {event.start_time} - {event.end_time}
                 </p>
-                <p className="text-sm text-gray-600">£{event.booking_rate}</p>
+                <p className="text-sm text-gray-600">£{event.rate_per_hour}/hour</p>
               </div>
             ))}
           </div>
