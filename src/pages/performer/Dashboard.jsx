@@ -83,105 +83,108 @@ const DashboardContent = () => {
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Dashboard</h1>
 
-      {/* Upcoming Performances */}
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4 flex items-center">
-          <Calendar className="w-5 h-5 mr-2" />
-          Upcoming Performances
-        </h2>
-        {upcomingPerformances.length > 0 ? (
-          <div className="space-y-3">
-            {upcomingPerformances.map((performance) => (
-              <div key={performance.id} className="border p-4 rounded-lg">
-                <p className="text-lg font-semibold">{performance.venue_name}</p>
-                <p className="text-sm text-gray-600">
-                  {new Date(performance.date).toLocaleDateString()} | {performance.start_time} - {performance.end_time}
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-600">No upcoming performances.</p>
-        )}
-      </div>
-
-      {/* Recent Earnings */}
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4 flex items-center">
-          <DollarSign className="w-5 h-5 mr-2" />
-          Recent Earnings
-        </h2>
-        {recentEarnings.length > 0 ? (
-          <div className="space-y-3">
-            {recentEarnings.map((earning) => (
-              <div key={earning.id} className="border p-4 rounded-lg">
-                <p className="text-lg font-semibold">${earning.amount}</p>
-                <p className="text-sm text-gray-600">
-                  {new Date(earning.created_at).toLocaleDateString()}
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-600">No recent earnings.</p>
-        )}
-      </div>
-
-      {/* Availability Slots */}
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4 flex items-center">
-          <Clock className="w-5 h-5 mr-2" />
-          Availability Slots
-        </h2>
-        {availabilitySlots.length > 0 ? (
-          <div className="space-y-3">
-            {availabilitySlots.map((slot) => (
-              <div key={slot.id} className="border p-4 rounded-lg">
-                <p className="text-lg font-semibold">
-                  {new Date(slot.date).toLocaleDateString()} | {slot.start_time} - {slot.end_time}
-                </p>
-                <p className="text-sm text-gray-600">${slot.rate_per_hour}/hour</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-600">No availability slots.</p>
-        )}
-      </div>
-
-      {/* Performance Ratings */}
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4 flex items-center">
-          <Star className="w-5 h-5 mr-2" />
-          Performance Ratings
-        </h2>
-        {performanceRatings.length > 0 ? (
-          <div className="space-y-3">
-            {performanceRatings.map((rating) => (
-              <div key={rating.id} className="border p-4 rounded-lg">
-                <p className="text-lg font-semibold">{rating.overall_rating}/5</p>
-                <p className="text-sm text-gray-600">{rating.comment}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-600">No performance ratings.</p>
-        )}
-      </div>
-
-      {/* Subscription Status */}
-      {subscriptionStatus && (
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Upcoming Performances */}
+        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
-            <CheckCircle className="w-5 h-5 mr-2" />
-            Subscription Status
+            <Calendar className="w-5 h-5 mr-2" />
+            Upcoming Performances
           </h2>
-          <p className="text-lg font-semibold">{subscriptionStatus.plan_type}</p>
-          <p className="text-sm text-gray-600">
-            Renews on: {new Date(subscriptionStatus.current_period_end).toLocaleDateString()}
-          </p>
+          {upcomingPerformances.length > 0 ? (
+            <div className="space-y-3">
+              {upcomingPerformances.map((performance) => (
+                <div key={performance.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                  <p className="text-lg font-semibold">{performance.venue_name}</p>
+                  <p className="text-sm text-gray-600">
+                    {new Date(performance.date).toLocaleDateString()} | {performance.start_time} - {performance.end_time}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">No upcoming performances.</p>
+          )}
         </div>
-      )}
+
+        {/* Recent Earnings */}
+        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
+          <h2 className="text-xl font-semibold mb-4 flex items-center">
+            <DollarSign className="w-5 h-5 mr-2" />
+            Recent Earnings
+          </h2>
+          {recentEarnings.length > 0 ? (
+            <div className="space-y-3">
+              {recentEarnings.map((earning) => (
+                <div key={earning.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                  <p className="text-lg font-semibold">${earning.amount}</p>
+                  <p className="text-sm text-gray-600">
+                    {new Date(earning.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">No recent earnings.</p>
+          )}
+        </div>
+
+        {/* Availability Slots */}
+        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
+          <h2 className="text-xl font-semibold mb-4 flex items-center">
+            <Clock className="w-5 h-5 mr-2" />
+            Availability Slots
+          </h2>
+          {availabilitySlots.length > 0 ? (
+            <div className="space-y-3">
+              {availabilitySlots.map((slot) => (
+                <div key={slot.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                  <p className="text-lg font-semibold">
+                    {new Date(slot.date).toLocaleDateString()} | {slot.start_time} - {slot.end_time}
+                  </p>
+                  <p className="text-sm text-gray-600">${slot.rate_per_hour}/hour</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">No availability slots.</p>
+          )}
+        </div>
+
+        {/* Performance Ratings */}
+        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
+          <h2 className="text-xl font-semibold mb-4 flex items-center">
+            <Star className="w-5 h-5 mr-2" />
+            Performance Ratings
+          </h2>
+          {performanceRatings.length > 0 ? (
+            <div className="space-y-3">
+              {performanceRatings.map((rating) => (
+                <div key={rating.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                  <p className="text-lg font-semibold">{rating.overall_rating}/5</p>
+                  <p className="text-sm text-gray-600">{rating.comment}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">No performance ratings.</p>
+          )}
+        </div>
+
+        {/* Subscription Status */}
+        {subscriptionStatus && (
+          <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
+            <h2 className="text-xl font-semibold mb-4 flex items-center">
+              <CheckCircle className="w-5 h-5 mr-2" />
+              Subscription Status
+            </h2>
+            <p className="text-lg font-semibold">{subscriptionStatus.plan_type}</p>
+            <p className="text-sm text-gray-600">
+              Renews on: {new Date(subscriptionStatus.current_period_end).toLocaleDateString()}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
