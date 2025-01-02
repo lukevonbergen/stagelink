@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import PerformerFrame from './PerformerFrame';
-import { Calendar, Star, DollarSign, Clock, CheckCircle } from 'lucide-react';
+import { Calendar, Star, Clock, CheckCircle } from 'lucide-react';
 
 const DashboardContent = () => {
   const [upcomingPerformances, setUpcomingPerformances] = useState([]);
-  const [recentEarnings, setRecentEarnings] = useState([]);
   const [availabilitySlots, setAvailabilitySlots] = useState([]);
   const [performanceRatings, setPerformanceRatings] = useState([]);
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
@@ -27,16 +26,6 @@ const DashboardContent = () => {
             .order('date', { ascending: true });
 
           setUpcomingPerformances(performancesData || []);
-
-          // Fetch recent earnings
-          const { data: earningsData } = await supabase
-            .from('earnings')
-            .select('*')
-            .eq('performer_id', user.id)
-            .order('created_at', { ascending: false })
-            .limit(5);
-
-          setRecentEarnings(earningsData || []);
 
           // Fetch availability slots
           const { data: availabilityData } = await supabase
@@ -80,8 +69,19 @@ const DashboardContent = () => {
   if (error) return <div className="text-center py-8 text-red-600">Error: {error}</div>;
 
   // Calculate key metrics
-  const totalEarnings = recentEarnings.reduce((sum, earning) => sum + earning.amount, 0);
   const averageRating = performanceRatings.reduce((sum, rating) => sum + rating.overall_rating, 0) / performanceRatings.length;
+
+  // Format date as "Monday 1st Jan"
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+  };
+
+  // Format time as "6pm - 9pm"
+  const formatTime = (timeString) => {
+    const time = new Date(`1970-01-01T${timeString}`);
+    return time.toLocaleTimeString('en-GB', { hour: 'numeric', minute: 'numeric', hour12: true });
+  };
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -103,13 +103,6 @@ const DashboardContent = () => {
           </div>
           <p className="text-2xl font-bold mt-2">{isNaN(averageRating) ? 'N/A' : averageRating.toFixed(1)}/5</p>
         </div>
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <div className="flex items-center">
-            <DollarSign className="w-6 h-6 mr-2 text-green-500" />
-            <span className="text-lg font-semibold">Total Earnings</span>
-          </div>
-          <p className="text-2xl font-bold mt-2">${totalEarnings.toFixed(2)}</p>
-        </div>
       </div>
 
       {/* Main Content */}
@@ -126,35 +119,13 @@ const DashboardContent = () => {
                 <div key={performance.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                   <p className="text-lg font-semibold">{performance.venue_name}</p>
                   <p className="text-sm text-gray-600">
-                    {new Date(performance.date).toLocaleDateString()} | {performance.start_time} - {performance.end_time}
+                    {new Date(performance.date).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' })} | {formatTime(performance.start_time)} - {formatTime(performance.end_time)}
                   </p>
                 </div>
               ))}
             </div>
           ) : (
             <p className="text-gray-600">No upcoming performances.</p>
-          )}
-        </div>
-
-        {/* Recent Earnings */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4 flex items-center">
-            <DollarSign className="w-5 h-5 mr-2" />
-            Recent Earnings
-          </h2>
-          {recentEarnings.length > 0 ? (
-            <div className="space-y-3">
-              {recentEarnings.map((earning) => (
-                <div key={earning.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                  <p className="text-lg font-semibold">${earning.amount}</p>
-                  <p className="text-sm text-gray-600">
-                    {new Date(earning.created_at).toLocaleDateString()}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-600">No recent earnings.</p>
           )}
         </div>
 
@@ -169,9 +140,9 @@ const DashboardContent = () => {
               {availabilitySlots.map((slot) => (
                 <div key={slot.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                   <p className="text-lg font-semibold">
-                    {new Date(slot.date).toLocaleDateString()} | {slot.start_time} - {slot.end_time}
+                    {formatDate(slot.date)} | {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
                   </p>
-                  <p className="text-sm text-gray-600">${slot.rate_per_hour}/hour</p>
+                  <p className="text-sm text-gray-600">£{slot.rate_per_hour}/hour</p>
                 </div>
               ))}
             </div>
@@ -210,7 +181,7 @@ const DashboardContent = () => {
           </h2>
           <p className="text-lg font-semibold">{subscriptionStatus.plan_type}</p>
           <p className="text-sm text-gray-600">
-            Renews on: {new Date(subscriptionStatus.current_period_end).toLocaleDateString()}
+            Renews on: {new Date(subscriptionStatus.current_period_end).toLocaleDateString('en-GB')}
           </p>
         </div>
       )}
