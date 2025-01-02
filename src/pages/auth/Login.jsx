@@ -39,11 +39,11 @@ const Login = () => {
         .single();
 
       if (performerData) {
-        navigate('/performer/dashboard');
+        navigate('/performer/dashboard';
       } else if (venueData) {
-        navigate('/venue/dashboard');
+        navigate('/venue/dashboard';
       } else {
-        throw new Error('Account type not found');
+        throw new Error('Account type not found';
       }
     } catch (error) {
       setError(error.message);
@@ -54,8 +54,8 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Sign in to your account</h2>
+      <div className="w-full max-w-md bg-white rounded-xl shadow-2xl p-8 border border-gray-100 transform transition-all hover:scale-105">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Sign in to Stagelink</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <FormField
             id="email"
