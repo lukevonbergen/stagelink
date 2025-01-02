@@ -64,14 +64,24 @@ const PerformerFrame = ({ children }) => {
   return (
     <>
       <div>
-        {/* Strip Bar */}
-        <div className="w-full bg-white border-b border-gray-200 py-2 text-center text-sm text-gray-700">
-          You are logged in as <strong>{stageName}</strong>: {performerId}
+        {/* Top Navbar */}
+        <div className="w-full bg-white border-b border-gray-200 py-3 px-6 text-sm text-gray-700 shadow-sm fixed top-0 z-50">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <span>
+              You are logged in as <strong>{stageName}</strong>: {performerId}
+            </span>
+            <button
+              onClick={handleLogout}
+              className="text-gray-700 hover:text-gray-900 transition duration-200"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {/* Mobile Sidebar */}
         <Transition.Root show={sidebarOpen} as={Fragment}>
-          <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
+          <Dialog as="div" className="relative z-40 lg:hidden" onClose={setSidebarOpen}>
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -81,7 +91,7 @@ const PerformerFrame = ({ children }) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-base-300/80" />
+              <div className="fixed inset-0 bg-black/30" />
             </Transition.Child>
 
             <div className="fixed inset-0 flex">
@@ -95,9 +105,9 @@ const PerformerFrame = ({ children }) => {
                 leaveTo="-translate-x-full"
               >
                 <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-base-100 px-6 pb-4">
+                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
-                      <span className="text-2xl font-bold text-primary">StageLink</span>
+                      <span className="text-2xl font-bold text-gray-900">StageLink</span>
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -109,8 +119,8 @@ const PerformerFrame = ({ children }) => {
                                   to={item.href}
                                   className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${
                                     location.pathname === item.href
-                                      ? 'bg-base-200 text-primary'
-                                      : 'text-base-content hover:bg-base-200 hover:text-primary'
+                                      ? 'bg-gray-100 text-gray-900'
+                                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                                   }`}
                                 >
                                   <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
@@ -130,11 +140,8 @@ const PerformerFrame = ({ children }) => {
         </Transition.Root>
 
         {/* Desktop Sidebar */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
-            <div className="flex h-16 shrink-0 items-center">
-              <span className="text-2xl font-bold text-gray-900">StageLink</span>
-            </div>
+        <div className="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-72 lg:flex-col">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4 pt-20">
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
@@ -171,8 +178,8 @@ const PerformerFrame = ({ children }) => {
         </div>
 
         {/* Main Content */}
-        <div className="lg:pl-72">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+        <div className="lg:pl-72 pt-16">
+          <div className="sticky top-16 z-30 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             <button
               type="button"
               className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
