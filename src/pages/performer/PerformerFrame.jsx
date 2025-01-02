@@ -9,11 +9,13 @@ import {
   MusicalNoteIcon,
   BanknotesIcon,
   ChartBarIcon,
+  CubeIcon,
 } from '@heroicons/react/24/outline';
 import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 
 const navigation = [
+  { name: 'Dashboard', href: '/performer/dashboard', icon: CubeIcon },
   { name: 'Profile', href: '/performer/profile', icon: UserCircleIcon },
   { name: 'Availability', href: '/performer/availability', icon: CalendarDaysIcon },
   { name: 'Performances', href: '/performer/performances', icon: MusicalNoteIcon },
