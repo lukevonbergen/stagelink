@@ -22,7 +22,7 @@ const DashboardContent = () => {
             .from('performances')
             .select('*')
             .eq('venue_id', user.id) // Filter by the current venue's ID
-            .in('status', ['confirmed', 'pending']) // Only include confirmed or pending performances
+            .eq('status', 'confirmed') // Only include confirmed performances
             .order('date', { ascending: true })
             .limit(1);
 
@@ -46,7 +46,7 @@ const DashboardContent = () => {
             .from('performances')
             .select('*')
             .eq('venue_id', user.id) // Filter by the current venue's ID
-            .in('status', ['confirmed', 'pending']) // Only include confirmed or pending performances
+            .eq('status', 'confirmed') // Only include confirmed performances
             .order('date', { ascending: true });
 
           if (upcomingEventsError) throw upcomingEventsError;
