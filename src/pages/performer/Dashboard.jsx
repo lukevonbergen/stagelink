@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import PerformerFrame from './PerformerFrame';
-import { Calendar, Star, Clock, CheckCircle } from 'lucide-react';
+import { Calendar, Star, Clock, CheckCircle, MapPin } from 'lucide-react';
 
 const DashboardContent = () => {
   const [upcomingPerformances, setUpcomingPerformances] = useState([]);
