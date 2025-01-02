@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase'; // Adjust the import path as needed
-import VenueDashboard from './Dashboard';
+import VenueFrame from './VenueFrame';
 import Payment from './Payment'; // Import the Payment component
 
 const SubscriptionContent = () => {
@@ -130,9 +130,9 @@ const SubscriptionContent = () => {
 
 // Wrap with VenueDashboard
 const Subscription = () => (
-  <VenueDashboard>
+  <VenueFrame>
     <SubscriptionContent />
-  </VenueDashboard>
+  </VenueFrame>
 );
 
 export default Subscription;

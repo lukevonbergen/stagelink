@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import VenueDashboard from './Dashboard';
+import VenueFrame from './VenueFrame';
 
 const ProfileContent = () => {
   const [profile, setProfile] = useState({
@@ -117,9 +117,9 @@ const ProfileContent = () => {
 
 // Wrap with VenueDashboard
 const Profile = () => (
-  <VenueDashboard>
+  <VenueFrame>
     <ProfileContent />
-  </VenueDashboard>
+  </VenueFrame>
 );
 
 export default Profile;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import VenueDashboard from './Dashboard';
+import VenueFrame from './VenueFrame';
 
 const ReportsContent = () => {
   const [bookings, setBookings] = useState([]);
@@ -56,9 +56,9 @@ const ReportsContent = () => {
 
 // Wrap with VenueDashboard
 const Reports = () => (
-  <VenueDashboard>
+  <VenueFrame>
     <ReportsContent />
-  </VenueDashboard>
+  </VenueFrame>
 );
 
 export default Reports;

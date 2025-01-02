@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import VenueDashboard from './Dashboard';
+import VenueFrame from './VenueFrame';
 
 const BookContent = () => {
   const [searchDate, setSearchDate] = useState('');
@@ -147,9 +147,9 @@ const BookContent = () => {
 
 // Wrap with VenueDashboard
 const Book = () => (
-  <VenueDashboard>
+  <VenueFrame>
     <BookContent />
-  </VenueDashboard>
+  </VenueFrame>
 );
 
 export default Book;
