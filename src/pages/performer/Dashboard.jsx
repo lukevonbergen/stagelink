@@ -137,20 +137,41 @@ const DashboardContent = () => {
           </h2>
           {availabilitySlots.length > 0 ? (
             <div className="space-y-3">
-              {availabilitySlots.map((slot) => (
-                <div key={slot.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                  <p className="text-lg font-semibold">
-                    {formatDate(slot.date)} | {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
-                  </p>
-                  <p className="text-sm text-gray-600">£{slot.rate_per_hour}/hour</p>
-                </div>
-              ))}
+              {availabilitySlots.map((slot) => {
+                const startTime = new Date(`1970-01-01T${slot.start_time}`);
+                const endTime = new Date(`1970-01-01T${slot.end_time}`);
+                const totalHours = (endTime - startTime) / (1000 * 60 * 60);
+                const totalCost = slot.rate_per_hour * totalHours;
+
+                return (
+                  <div key={slot.id} className="border p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                    <div className="flex items-center mb-2">
+                      <Calendar className="w-4 h-4 mr-2 text-blue-500" />
+                      <p className="text-lg font-semibold">{formatDate(slot.date)}</p>
+                    </div>
+                    <div className="flex items-center mb-2">
+                      <Clock className="w-4 h-4 mr-2 text-green-500" />
+                      <p className="text-sm text-gray-600">
+                        {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+                      </p>
+                    </div>
+                    <div className="flex items-center mb-2">
+                      <Star className="w-4 h-4 mr-2 text-yellow-500" />
+                      <p className="text-sm text-gray-600">£{slot.rate_per_hour}/hour</p>
+                    </div>
+                    <div className="flex items-center">
+                      <CheckCircle className="w-4 h-4 mr-2 text-purple-500" />
+                      <p className="text-sm text-gray-600">Total Cost: £{totalCost.toFixed(2)}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <p className="text-gray-600">No availability slots.</p>
           )}
         </div>
-
+        
         {/* Performance Ratings */}
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
